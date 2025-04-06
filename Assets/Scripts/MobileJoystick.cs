@@ -31,20 +31,20 @@ public class MobileJoystick : MonoBehaviour
 
     void ShowJoystick()
     {
+        move = new Vector3(0, 0, 0);
         outer.gameObject.SetActive(true);
         isActive = true;
     }
 
     void HideJoystick()
     {
+        move = new Vector3(0, 0, 0);
         outer.gameObject.SetActive(false);
         isActive = false;
     }
 
     void ControlThumbstick()
     {
-        move = new Vector3(0f, 0f, 0f);
-
         Vector3 currentPosition = Input.mousePosition;
         Vector3 direction = currentPosition - clickedPostion;
 
@@ -60,7 +60,7 @@ public class MobileJoystick : MonoBehaviour
             HideJoystick();
     }
 
-    public Vector3 GetMove()
+    public Vector3 GetMoveVector()
     {
         return move;
     }
