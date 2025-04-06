@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        rb.linearVelocity = joystick.GetMoveVector() * moveSpeed * Time.deltaTime;
+        rb.linearVelocity = joystick.GetMoveVector() * moveSpeed * Time.fixedDeltaTime;
     }
 }
