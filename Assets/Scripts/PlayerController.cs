@@ -14,6 +14,21 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocity = joystick.GetMoveVector() * moveSpeed * Time.fixedDeltaTime;
+        Vector2 keyboardInputMoveVector = GetMoveVectorByKeyboard();
+
+        if (keyboardInputMoveVector != Vector2.zero)
+            rb.linearVelocity = keyboardInputMoveVector * moveSpeed * Time.fixedDeltaTime;
+        else
+            rb.linearVelocity = joystick.GetMoveVector() * moveSpeed * Time.fixedDeltaTime;
+    }
+
+    Vector2 GetMoveVectorByKeyboard()
+    {
+        const float MoveSpeedMultiplier = 100f;
+
+        float xInput = Input.GetAxis("Horizontal");
+        float yInput = Input.GetAxis("Vertical");
+
+        return new Vector2(xInput, yInput) * MoveSpeedMultiplier;
     }
 }
