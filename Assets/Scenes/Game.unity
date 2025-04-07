@@ -733,6 +733,7 @@ MonoBehaviour:
   rb: {fileID: 633023708}
   joystick: {fileID: 1265248235}
   moveSpeed: 5
+  isKeyboard: 1
 --- !u!58 &633023710
 CircleCollider2D:
   m_ObjectHideFlags: 0
