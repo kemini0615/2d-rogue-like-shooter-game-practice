@@ -9,6 +9,10 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] float moveSpeed;
     [SerializeField] float attackRange;
+    [SerializeField] int attackDamage;
+    [SerializeField] float attackRate;
+    float attackDelay;
+    float attackTimer;
     [SerializeField] bool hasSpawned;
 
     void Start()
@@ -30,6 +34,9 @@ public class EnemyController : MonoBehaviour
         // 3. Show enemy and hide spawn indicator
         Vector3 targetScale = spawnIndicatorRenderer.transform.localScale * 1.2f;
         LeanTween.scale(spawnIndicatorRenderer.gameObject, targetScale, .3f).setLoopPingPong(4).setOnComplete(OnSpawnAnimationCompleted);
+
+        // Set and calculate attack delay from attack rate
+        attackDelay = 1f / attackRate; 
     }
 
     void Update()
@@ -38,8 +45,9 @@ public class EnemyController : MonoBehaviour
             return;
 
         FollowPlayer();
-        TryAttack();
 
+        if (attackTimer >= attackDelay)
+            TryAttack();
     }
 
     void OnSpawnAnimationCompleted()
@@ -53,6 +61,8 @@ public class EnemyController : MonoBehaviour
     {
         Vector2 direction = (player.transform.position - transform.position).normalized;
         transform.position = (Vector2) transform.position + direction * moveSpeed * Time.deltaTime;
+
+        attackTimer += Time.deltaTime;
     }
 
     void TryAttack()
@@ -62,7 +72,15 @@ public class EnemyController : MonoBehaviour
 
         // If the player is in the range, then attack him
         if (distToPlayer <= attackRange)
-            Die(); // temp
+            Attack();
+    }
+
+    void Attack()
+    {
+        // If you attack successfully, then reset attack timer 
+        attackTimer = 0f;
+
+        Debug.Log($"Attacking player by {attackDamage} damage");
     }
 
     void Die()

@@ -6763,6 +6763,9 @@ MonoBehaviour:
   destroyParticleSystem: {fileID: 624034152}
   moveSpeed: 1.5
   attackRange: 0.5
+  attackDamage: 5
+  attackRate: 1
+  hasSpawned: 0
 --- !u!1 &1669518985
 GameObject:
   m_ObjectHideFlags: 0
