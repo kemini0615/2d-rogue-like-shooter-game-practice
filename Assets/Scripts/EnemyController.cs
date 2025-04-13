@@ -8,32 +8,20 @@ public class EnemyController : MonoBehaviour
     [SerializeField] ParticleSystem destroyParticleSystem;
 
     [SerializeField] float moveSpeed;
+
     [SerializeField] float attackRange;
     [SerializeField] int attackDamage;
     [SerializeField] float attackRate;
     float attackDelay;
     float attackTimer;
+
     [SerializeField] bool hasSpawned;
 
     void Start()
     {
-        // Find and get the player object
-        player = FindFirstObjectByType<Player>();
-        if (player == null)
-        {
-            Debug.LogWarning("Player not found");
-            Destroy(gameObject);
-        }
+        Player player = FindPlayer();
 
-        // Spawn enemy
-        // 1. Hide enemy and show spawn indicator
-        enemyRenderer.enabled = false;
-        spawnIndicatorRenderer.enabled = true;
-
-        // 2. Play animation of spawn indicator
-        // 3. Show enemy and hide spawn indicator
-        Vector3 targetScale = spawnIndicatorRenderer.transform.localScale * 1.2f;
-        LeanTween.scale(spawnIndicatorRenderer.gameObject, targetScale, .3f).setLoopPingPong(4).setOnComplete(OnSpawnAnimationCompleted);
+        SpawnEnemy();
 
         // Set and calculate attack delay from attack rate
         attackDelay = 1f / attackRate; 
@@ -44,32 +32,62 @@ public class EnemyController : MonoBehaviour
         if (!hasSpawned)
             return;
 
-        FollowPlayer();
+        attackTimer += Time.deltaTime;
+
+        float distToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
+        if (player != null)
+            FollowPlayer(distToPlayer);
 
         if (attackTimer >= attackDelay)
-            TryAttack();
+            TryAttack(distToPlayer);
+    }
+
+    Player FindPlayer()
+    {
+        // Find and get the player object
+        Player player = FindFirstObjectByType<Player>();
+        if (player == null)
+        {
+            Debug.LogWarning("Player not found");
+            Destroy(gameObject);
+        }
+
+        return player;
+    }
+
+    void SpawnEnemy()
+    {
+        // Hide enemy and show spawn indicator
+        enemyRenderer.enabled = false;
+        spawnIndicatorRenderer.enabled = true;
+
+        // Play animation of spawn indicator and then, show enemy and hide spawn indicator
+        Vector3 targetScale = spawnIndicatorRenderer.transform.localScale * 1.2f;
+        LeanTween.scale(spawnIndicatorRenderer.gameObject, targetScale, .3f)
+            .setLoopPingPong(4)
+            .setOnComplete(OnSpawnAnimationCompleted);
     }
 
     void OnSpawnAnimationCompleted()
     {
         enemyRenderer.enabled = true;
         spawnIndicatorRenderer.enabled = false;
+
         hasSpawned = true;
     }
 
-    void FollowPlayer()
+    void FollowPlayer(float distToPlayer)
     {
+        if (distToPlayer < 0.01f)
+            return;
+
         Vector2 direction = (player.transform.position - transform.position).normalized;
         transform.position = (Vector2) transform.position + direction * moveSpeed * Time.deltaTime;
-
-        attackTimer += Time.deltaTime;
     }
 
-    void TryAttack()
+    void TryAttack(float distToPlayer)
     {
-        // Check the player is in a range of attack
-        float distToPlayer = Vector2.Distance(transform.position, player.transform.position);
-
         // If the player is in the range, then attack him
         if (distToPlayer <= attackRange)
             Attack();
