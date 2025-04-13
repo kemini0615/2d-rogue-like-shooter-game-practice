@@ -98,7 +98,7 @@ public class EnemyController : MonoBehaviour
         // If you attack successfully, then reset attack timer 
         attackTimer = 0f;
 
-        Debug.Log($"Attacking player by {attackDamage} damage");
+        player.TakeDamage(attackDamage);
     }
 
     void Die()
