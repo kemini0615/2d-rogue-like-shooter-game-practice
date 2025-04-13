@@ -3,10 +3,13 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] Player player;
+    [SerializeField] SpriteRenderer enemyRenderer;
+    [SerializeField] SpriteRenderer spawnIndicatorRenderer;
     [SerializeField] ParticleSystem destroyParticleSystem;
 
     [SerializeField] float moveSpeed;
     [SerializeField] float attackRange;
+    [SerializeField] bool hasSpawned;
 
     void Start()
     {
@@ -17,12 +20,33 @@ public class EnemyController : MonoBehaviour
             Debug.LogWarning("Player not found");
             Destroy(gameObject);
         }
+
+        // Spawn enemy
+        // 1. Hide enemy and show spawn indicator
+        enemyRenderer.enabled = false;
+        spawnIndicatorRenderer.enabled = true;
+
+        // 2. Play animation of spawn indicator
+        // 3. Show enemy and hide spawn indicator
+        Vector3 targetScale = spawnIndicatorRenderer.transform.localScale * 1.2f;
+        LeanTween.scale(spawnIndicatorRenderer.gameObject, targetScale, .3f).setLoopPingPong(4).setOnComplete(OnSpawnAnimationCompleted);
     }
 
     void Update()
     {
+        if (!hasSpawned)
+            return;
+
         FollowPlayer();
         TryAttack();
+
+    }
+
+    void OnSpawnAnimationCompleted()
+    {
+        enemyRenderer.enabled = true;
+        spawnIndicatorRenderer.enabled = false;
+        hasSpawned = true;
     }
 
     void FollowPlayer()
@@ -38,10 +62,7 @@ public class EnemyController : MonoBehaviour
 
         // If the player is in the range, then attack him
         if (distToPlayer <= attackRange)
-        {
-            // temp
-            Die();
-        }
+            Die(); // temp
     }
 
     void Die()
