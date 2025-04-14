@@ -1,13 +1,21 @@
-using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] int hp;
+    [SerializeField] Slider hpSlider;
+    [SerializeField] TextMeshProUGUI hpText;
+
+    [SerializeField] int maxHp;
+    [SerializeField] int currentHp;
 
     void Start()
     {
+        currentHp = maxHp;
         
+        UpdateHpBar();
     }
 
     void Update()
@@ -17,20 +25,28 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (hp > damage)
+        if (currentHp > damage)
         {
-            hp -= damage;
+            currentHp -= damage;
         }
         else
         {
-            hp = 0;
+            currentHp = 0;
             Die();
         }
+
+        UpdateHpBar();
+    }
+
+    void UpdateHpBar()
+    {
+        hpSlider.value = (float) currentHp / maxHp;
+        hpText.text = currentHp + " / " + maxHp;
     }
 
     void Die()
     {
-        Debug.Log("Plyer died");
         Destroy(gameObject);
+        SceneManager.LoadScene(0);
     }
 }

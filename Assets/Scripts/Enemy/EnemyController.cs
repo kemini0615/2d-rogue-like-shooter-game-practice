@@ -32,12 +32,13 @@ public class EnemyController : MonoBehaviour
         if (!hasSpawned)
             return;
 
+        if (player == null)
+            return;
+
         attackTimer += Time.deltaTime;
-
+    
         float distToPlayer = Vector2.Distance(transform.position, player.transform.position);
-
-        if (player != null)
-            FollowPlayer(distToPlayer);
+        FollowPlayer(distToPlayer);
 
         if (attackTimer >= attackDelay)
             TryAttack(distToPlayer);
