@@ -15,16 +15,33 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        // Find a closest enemy
-        Collider2D closestEnemy = null;
+        AimAtClosestEnemy();
+    }
+
+    private void AimAtClosestEnemy()
+    {
+        Enemy closestEnemy = FindClosestEnemy();
+
         Vector2 targetVector = Vector2.up;
+
+        if (closestEnemy != null)
+        {
+            targetVector = (closestEnemy.transform.position - transform.position).normalized;
+        }
+
+        transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
+    }
+
+    private Enemy FindClosestEnemy()
+    {
+        Enemy closestEnemy = null;
 
         // It is not recommended to call FindObjectsByType() method on every frame
         // Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, detectRange, layerMask);
 
         if (enemies.Length <= 0)
-            return;
+            return null;
 
         float minDistance = detectRange;
 
@@ -35,23 +52,14 @@ public class Weapon : MonoBehaviour
             if (distance < minDistance)
             {
                 minDistance = distance;
-                closestEnemy = enemy;
+                closestEnemy = enemy.GetComponent<Enemy>();
             }
         }
 
-        if (closestEnemy == null)
-        {
-            transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
-            return;
-        }
-
-        targetVector = (closestEnemy.transform.position - transform.position).normalized;
-
-
-        transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
+        return closestEnemy;
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRange);
