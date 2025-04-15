@@ -1564,10 +1564,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7bf613afdb18954ba14c7a7b0b52cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectRange: 5
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  detectRange: 5
+  lerpMultiplier: 10
 --- !u!1 &1112977659
 GameObject:
   m_ObjectHideFlags: 0

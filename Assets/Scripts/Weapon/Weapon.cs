@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] float detectRange;
     [SerializeField] LayerMask layerMask;
+    [SerializeField] float detectRange;
+
+    [SerializeField] float lerpMultiplier;
 
     void Start()
     {
@@ -15,6 +17,7 @@ public class Weapon : MonoBehaviour
     {
         // Find a closest enemy
         Collider2D closestEnemy = null;
+        Vector2 targetVector = Vector2.up;
 
         // It is not recommended to call FindObjectsByType() method on every frame
         // Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
@@ -38,11 +41,14 @@ public class Weapon : MonoBehaviour
 
         if (closestEnemy == null)
         {
-            transform.up = Vector2.up;
+            transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
             return;
         }
 
-        transform.up = (closestEnemy.transform.position - transform.position).normalized;
+        targetVector = (closestEnemy.transform.position - transform.position).normalized;
+
+
+        transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
     }
 
     void OnDrawGizmos()
