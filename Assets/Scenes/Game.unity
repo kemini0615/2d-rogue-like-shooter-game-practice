@@ -1639,6 +1639,7 @@ MonoBehaviour:
   detectRange: 5
   damage: 5
   lerpMultiplier: 10
+  animator: {fileID: 1042599791}
 --- !u!95 &1042599791
 Animator:
   serializedVersion: 7
@@ -9470,7 +9471,7 @@ PrefabInstance:
       objectReference: {fileID: 633023711}
     - target: {fileID: 487645636957145016, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 487645636957145016, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
       propertyPath: m_LocalPosition.y

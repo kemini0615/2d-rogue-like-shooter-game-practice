@@ -1,9 +1,16 @@
-using System;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    enum State
+    {
+        Idle,
+        Attack,
+    }
+
+    State state;
+
     [SerializeField] Transform hitSpotTransform;
     [SerializeField] float hitSpotRadius;
 
@@ -13,16 +20,51 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] float lerpMultiplier;
 
+    [SerializeField] Animator animator;
+
+    List<Enemy> attackedEnemies = new List<Enemy>();
+
     void Start()
     {
-        
+        state = State.Idle;
     }
 
     void Update()
     {
-        AimAtClosestEnemy();
+        // temp
+        if (Input.GetMouseButton(0))
+        {
+            StartAttack();
+        }
 
+        // State machine pattern
+        switch (state)
+        {
+            case State.Idle:
+                AimAtClosestEnemy();
+                break;
+            case State.Attack:
+                UpdateAttack();
+                break;
+        }   
+    }
+
+    void StartAttack()
+    {
+        attackedEnemies.Clear();
+        animator.Play("Attack");
+        state = State.Attack;
+    }
+
+    void UpdateAttack()
+    {
         Attack();
+    }
+    
+    void ExitAttack()
+    {
+        state = State.Idle;
+        attackedEnemies.Clear();
     }
 
     private void Attack()
@@ -31,7 +73,12 @@ public class Weapon : MonoBehaviour
 
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].GetComponent<Enemy>().TakeDamage(damage);
+            Enemy targetEnemy = enemies[i].GetComponent<Enemy>();
+            if (!attackedEnemies.Contains(targetEnemy))
+            {
+                targetEnemy.TakeDamage(damage);
+                attackedEnemies.Add(targetEnemy);
+            }
         }
     }
 
