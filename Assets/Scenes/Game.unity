@@ -1075,7 +1075,7 @@ GameObject:
   - component: {fileID: 633023712}
   - component: {fileID: 633023708}
   - component: {fileID: 633023710}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1640,6 +1640,7 @@ MonoBehaviour:
   damage: 5
   lerpMultiplier: 10
   animator: {fileID: 1042599791}
+  attackRate: 2
 --- !u!95 &1042599791
 Animator:
   serializedVersion: 7

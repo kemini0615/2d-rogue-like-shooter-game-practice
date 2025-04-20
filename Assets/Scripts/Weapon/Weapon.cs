@@ -23,25 +23,23 @@ public class Weapon : MonoBehaviour
     [SerializeField] Animator animator;
 
     List<Enemy> attackedEnemies = new List<Enemy>();
+    [SerializeField] float attackRate;
+    float attackDelay;
+    float attackTimer;
 
     void Start()
     {
         state = State.Idle;
+        attackDelay = 1f / attackRate;
     }
 
     void Update()
     {
-        // temp
-        if (Input.GetMouseButton(0))
-        {
-            StartAttack();
-        }
-
         // State machine pattern
         switch (state)
         {
             case State.Idle:
-                AimAtClosestEnemy();
+                UpdateIdle();
                 break;
             case State.Attack:
                 UpdateAttack();
@@ -49,9 +47,27 @@ public class Weapon : MonoBehaviour
         }   
     }
 
+    void StartIdle()
+    {
+
+    }
+
+    void UpdateIdle()
+    {
+        IncreaseAttackTimer();
+        AimAtClosestEnemy();
+    }
+
+    void ExitIdle()
+    {
+
+    }
+
     void StartAttack()
     {
         attackedEnemies.Clear();
+
+        animator.speed = attackRate;
         animator.Play("Attack");
         state = State.Attack;
     }
@@ -67,6 +83,35 @@ public class Weapon : MonoBehaviour
         attackedEnemies.Clear();
     }
 
+    void IncreaseAttackTimer()
+    {
+        attackTimer += Time.deltaTime;
+    }
+
+    private void AimAtClosestEnemy()
+    {
+        Enemy closestEnemy = FindClosestEnemy();
+
+        Vector2 targetVector = Vector2.up;
+
+        if (closestEnemy != null)
+        {
+            targetVector = (closestEnemy.transform.position - transform.position).normalized;
+            TryAutoAttack();
+        }
+
+        transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
+    }
+
+    void TryAutoAttack()
+    {
+        if (attackTimer > attackDelay)
+        {
+            attackTimer = 0;
+            StartAttack();
+        }
+    }
+
     private void Attack()
     {
         Collider2D[] enemies = Physics2D.OverlapCircleAll(hitSpotTransform.position, hitSpotRadius, layerMask);
@@ -80,20 +125,6 @@ public class Weapon : MonoBehaviour
                 attackedEnemies.Add(targetEnemy);
             }
         }
-    }
-
-    private void AimAtClosestEnemy()
-    {
-        Enemy closestEnemy = FindClosestEnemy();
-
-        Vector2 targetVector = Vector2.up;
-
-        if (closestEnemy != null)
-        {
-            targetVector = (closestEnemy.transform.position - transform.position).normalized;
-        }
-
-        transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
     }
 
     private Enemy FindClosestEnemy()
