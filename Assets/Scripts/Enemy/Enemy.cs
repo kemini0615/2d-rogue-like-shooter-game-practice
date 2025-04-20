@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -8,12 +9,11 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] ParticleSystem destroyParticleSystem;
 
-    [SerializeField] TextMeshPro hpText;
+    public static Action<int, Vector2> onDamaged;
 
     void Start()
     {
         currentHp = maxHp;
-        hpText.text = currentHp.ToString();
     }
 
     void Update()
@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
             Die();
         }
 
-        hpText.text = currentHp.ToString();
+        onDamaged?.Invoke(damage, transform.position);
     }
 
     void Die()
