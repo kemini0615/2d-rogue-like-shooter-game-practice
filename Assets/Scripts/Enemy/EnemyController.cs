@@ -5,7 +5,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] SpriteRenderer enemyRenderer;
     [SerializeField] SpriteRenderer spawnIndicatorRenderer;
-    [SerializeField] ParticleSystem destroyParticleSystem;
+
 
     [SerializeField] float moveSpeed;
 
@@ -100,18 +100,6 @@ public class EnemyController : MonoBehaviour
         attackTimer = 0f;
 
         player.TakeDamage(attackDamage);
-    }
-
-    void Die()
-    {
-        // Unparent particle system from game object
-        destroyParticleSystem.transform.parent = null;
-
-        // Destroy game object
-        Destroy(gameObject);
-
-        // Play particle system
-        destroyParticleSystem.Play();
     }
 
     void OnDrawGizmos()

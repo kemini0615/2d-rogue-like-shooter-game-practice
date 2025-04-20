@@ -46,6 +46,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
+        // TODO: Add destroy particles
+
         Destroy(gameObject);
         SceneManager.LoadScene(0);
     }

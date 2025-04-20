@@ -1,10 +1,15 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [SerializeField] Transform hitSpotTransform;
+    [SerializeField] float hitSpotRadius;
+
     [SerializeField] LayerMask layerMask;
     [SerializeField] float detectRange;
+    [SerializeField] int damage;
 
     [SerializeField] float lerpMultiplier;
 
@@ -16,6 +21,18 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         AimAtClosestEnemy();
+
+        Attack();
+    }
+
+    private void Attack()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(hitSpotTransform.position, hitSpotRadius, layerMask);
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].GetComponent<Enemy>().TakeDamage(damage);
+        }
     }
 
     private void AimAtClosestEnemy()
@@ -63,5 +80,6 @@ public class Weapon : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRange);
+        Gizmos.DrawWireSphere(hitSpotTransform.position, hitSpotRadius);
     }
 }
