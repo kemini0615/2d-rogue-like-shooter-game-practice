@@ -366,6 +366,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3286085320270387484, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 633023711}
     - target: {fileID: 7881226997657126882, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
       propertyPath: m_Name
       value: Enemy (3)
@@ -541,6 +545,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3286085320270387484, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 633023711}
     - target: {fileID: 7881226997657126882, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
@@ -803,6 +811,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3286085320270387484, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 633023711}
     - target: {fileID: 7881226997657126882, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
       propertyPath: m_Name
       value: Enemy (2)
@@ -1063,7 +1075,6 @@ GameObject:
   - component: {fileID: 633023707}
   - component: {fileID: 633023711}
   - component: {fileID: 633023709}
-  - component: {fileID: 633023712}
   - component: {fileID: 633023708}
   - component: {fileID: 633023710}
   m_Layer: 6
@@ -1179,18 +1190,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d617c0887e3f5e46931cd1c730fdbdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &633023712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 633023705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 133accc335f3b5d4aa4fefc2e6dc65f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hpSlider: {fileID: 81523981}
@@ -9502,10 +9501,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 853155240}
     m_Modifications:
-    - target: {fileID: 424491277246757842, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 633023711}
     - target: {fileID: 487645636957145016, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6
@@ -9546,6 +9541,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3286085320270387484, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 633023711}
     - target: {fileID: 7881226997657126882, guid: cb3ab013a3820554daed5e7bc96aefba, type: 3}
       propertyPath: m_Name
       value: Enemy

@@ -5088,8 +5088,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 487645636957145016}
-  - component: {fileID: 1668327781223493398}
-  - component: {fileID: 424491277246757842}
+  - component: {fileID: 3286085320270387484}
   - component: {fileID: 4662526866347368100}
   m_Layer: 7
   m_Name: Enemy
@@ -5116,23 +5115,7 @@ Transform:
   - {fileID: 3929908796017460756}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1668327781223493398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7881226997657126882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ff25f87b8243904ea57bf22a74f5994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 10
-  currentHp: 10
-  destroyParticleSystem: {fileID: 2308584487520372440}
-  hpText: {fileID: 0}
---- !u!114 &424491277246757842
+--- !u!114 &3286085320270387484
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5147,11 +5130,14 @@ MonoBehaviour:
   player: {fileID: 0}
   enemyRenderer: {fileID: 3594978199111735015}
   spawnIndicatorRenderer: {fileID: 579294141430865760}
-  moveSpeed: 1.5
-  attackRange: 0.5
-  attackDamage: 1
+  moveSpeed: 3
+  attackRange: 1
+  attackDamage: 2
   attackRate: 1
   hasSpawned: 0
+  maxHp: 10
+  currentHp: 10
+  destroyParticleSystem: {fileID: 2308584487520372440}
 --- !u!58 &4662526866347368100
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -1,19 +1,20 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-// Player class acts like an manager which controlls components in the player game object
-[RequireComponent(typeof(PlayerHealth))]
 public class Player : MonoBehaviour
 {
-    PlayerHealth playerHealth;
+    [SerializeField] Slider hpSlider;
+    [SerializeField] TextMeshProUGUI hpText;
 
-    void Awake()
-    {
-        playerHealth = GetComponent<PlayerHealth>();
-    }
+    [SerializeField] int maxHp;
+    [SerializeField] int currentHp;
 
     void Start()
     {
-        
+        currentHp = maxHp;
+        UpdateHpBar();
     }
 
     void Update()
@@ -23,6 +24,27 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        playerHealth.TakeDamage(damage);
+        if (currentHp > damage)
+        {
+            currentHp -= damage;
+        }
+        else
+        {
+            currentHp = 0;
+            Die();
+        }
+        UpdateHpBar();
+    }
+
+    void UpdateHpBar()
+    {
+        hpSlider.value = (float) currentHp / maxHp;
+        hpText.text = currentHp + " / " + maxHp;
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+        SceneManager.LoadScene(0);
     }
 }
