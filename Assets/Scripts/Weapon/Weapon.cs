@@ -12,9 +12,10 @@ public class Weapon : MonoBehaviour
     State state;
 
     [SerializeField] Transform hitSpotTransform;
+    [SerializeField] BoxCollider2D hitSpotCollider;
     [SerializeField] float hitSpotRadius;
 
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] LayerMask enemyMask;
     [SerializeField] float detectRange;
     [SerializeField] int damage;
 
@@ -31,6 +32,8 @@ public class Weapon : MonoBehaviour
     {
         state = State.Idle;
         attackDelay = 1f / attackRate;
+
+        hitSpotCollider = hitSpotTransform.GetComponent<BoxCollider2D>();
     }
 
     void Update()
@@ -47,10 +50,7 @@ public class Weapon : MonoBehaviour
         }   
     }
 
-    void StartIdle()
-    {
-
-    }
+    void StartIdle() {}
 
     void UpdateIdle()
     {
@@ -58,10 +58,7 @@ public class Weapon : MonoBehaviour
         AimAtClosestEnemy();
     }
 
-    void ExitIdle()
-    {
-
-    }
+    void ExitIdle() {}
 
     void StartAttack()
     {
@@ -77,6 +74,7 @@ public class Weapon : MonoBehaviour
         Attack();
     }
     
+    // Attack 애니메이션이 끝나면 호출된다
     void ExitAttack()
     {
         state = State.Idle;
@@ -92,15 +90,24 @@ public class Weapon : MonoBehaviour
     {
         Enemy closestEnemy = FindClosestEnemy();
 
-        Vector2 targetVector = Vector2.up;
+        Vector2 targetVector;
 
+        // 가장 가까운 적이 있다면
         if (closestEnemy != null)
         {
+            // 바로 가장 가까운 적을 향한다
             targetVector = (closestEnemy.transform.position - transform.position).normalized;
+            transform.up = targetVector;
+            
+            // 공격을 시도한다
             TryAutoAttack();
         }
-
-        transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
+        else
+        {
+            // 가장 가까운 적이 없다면 천천히 위쪽 방향을 향한다
+            targetVector = Vector2.up;
+            transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
+        }
     }
 
     void TryAutoAttack()
@@ -114,7 +121,7 @@ public class Weapon : MonoBehaviour
 
     private void Attack()
     {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(hitSpotTransform.position, hitSpotRadius, layerMask);
+        Collider2D[] enemies = Physics2D.OverlapBoxAll(hitSpotTransform.position, hitSpotCollider.bounds.size, hitSpotTransform.localEulerAngles.z, enemyMask);
 
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -131,9 +138,9 @@ public class Weapon : MonoBehaviour
     {
         Enemy closestEnemy = null;
 
-        // It is not recommended to call FindObjectsByType() method on every frame
+        // FindObjectsByType()를 Update() 메소드에서 프레임마다 호출하는 것은 권장하지 않는다
         // Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, detectRange, layerMask);
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, detectRange, enemyMask);
 
         if (enemies.Length <= 0)
             return null;

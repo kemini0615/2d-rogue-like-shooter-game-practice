@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] SpriteRenderer enemyRenderer;
     [SerializeField] SpriteRenderer spawnIndicatorRenderer;
+    [SerializeField] Collider2D collider;
 
 
     [SerializeField] float moveSpeed;
@@ -86,6 +87,8 @@ public class Enemy : MonoBehaviour
         spawnIndicatorRenderer.enabled = false;
 
         hasSpawned = true;
+
+        collider.enabled = true;
     }
 
     void FollowPlayer(float distToPlayer)

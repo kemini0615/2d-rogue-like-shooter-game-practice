@@ -5130,6 +5130,7 @@ MonoBehaviour:
   player: {fileID: 0}
   enemyRenderer: {fileID: 3594978199111735015}
   spawnIndicatorRenderer: {fileID: 579294141430865760}
+  collider: {fileID: 4662526866347368100}
   moveSpeed: 3
   attackRange: 1
   attackDamage: 2
@@ -5145,7 +5146,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7881226997657126882}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
