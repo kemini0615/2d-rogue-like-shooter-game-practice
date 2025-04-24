@@ -9,7 +9,7 @@ public class DamageTextManager : MonoBehaviour
 
     void Awake()
     {
-        Enemy.onDamaged += InstantiateDamangeText;
+        Monster.onDamaged += InstantiateDamangeText;
     }
 
     void Start()
@@ -55,6 +55,6 @@ public class DamageTextManager : MonoBehaviour
 
     void OnDestroy()
     {
-        Enemy.onDamaged -= InstantiateDamangeText;
+        Monster.onDamaged -= InstantiateDamangeText;
     }
 }

@@ -21,6 +21,7 @@ public class MobileJoystick : MonoBehaviour
             ControlThumbstick();
     }
 
+    // '이벤트 트리거' 컴포넌트의 'Pointer Down' 이벤트에 대한 콜백함수
     public void OnControlZoneClicked()
     {
         clickedPostion = Input.mousePosition;

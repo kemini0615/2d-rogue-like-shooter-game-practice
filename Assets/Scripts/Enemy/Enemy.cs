@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Monster : MonoBehaviour
 {
     [SerializeField] Player player;
     [SerializeField] SpriteRenderer enemyRenderer;
@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        Player player = FindPlayer();
+        player = FindPlayer();
 
         SpawnEnemy();
 
@@ -70,17 +70,17 @@ public class Enemy : MonoBehaviour
 
     void SpawnEnemy()
     {
-        // Hide enemy and show spawn indicator
         enemyRenderer.enabled = false;
         spawnIndicatorRenderer.enabled = true;
 
-        // Play animation of spawn indicator and then, show enemy and hide spawn indicator
+        // 몬스터 스폰 애니메이션을 재생한다
         Vector3 targetScale = spawnIndicatorRenderer.transform.localScale * 1.2f;
         LeanTween.scale(spawnIndicatorRenderer.gameObject, targetScale, .3f)
             .setLoopPingPong(4)
             .setOnComplete(OnSpawnAnimationCompleted);
     }
 
+    // 몬스터 스폰 애니메이션이 끝나면 몬스터를 렌더링한다
     void OnSpawnAnimationCompleted()
     {
         enemyRenderer.enabled = true;
@@ -102,14 +102,13 @@ public class Enemy : MonoBehaviour
 
     void TryAttack(float distToPlayer)
     {
-        // If the player is in the range, then attack him
+        // 플레이어가 공격 범위 안에 있으면 공격한다
         if (distToPlayer <= attackRange)
             Attack();
     }
 
     void Attack()
     {
-        // If you attack successfully, then reset attack timer 
         attackTimer = 0f;
 
         player.TakeDamage(attackDamage);
@@ -132,13 +131,9 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        // Unparent particle system from game object
+        // 파티클 시스템을 몬스터 게임 오브젝트에서 분리한다
         destroyParticleSystem.transform.parent = null;
 
-        // Destroy game object
-        Destroy(gameObject);
-
-        // Play particle system
         destroyParticleSystem.Play();
 
         Destroy(gameObject);

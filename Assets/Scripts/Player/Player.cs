@@ -17,11 +17,6 @@ public class Player : MonoBehaviour
         UpdateHpBar();
     }
 
-    void Update()
-    {
-        
-    }
-
     public void TakeDamage(int damage)
     {
         if (currentHp > damage)
@@ -33,6 +28,7 @@ public class Player : MonoBehaviour
             currentHp = 0;
             Die();
         }
+
         UpdateHpBar();
     }
 

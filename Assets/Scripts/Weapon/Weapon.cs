@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] Animator animator;
 
-    List<Enemy> attackedEnemies = new List<Enemy>();
+    List<Monster> attackedEnemies = new List<Monster>();
     [SerializeField] float attackRate;
     float attackDelay;
     float attackTimer;
@@ -88,7 +88,7 @@ public class Weapon : MonoBehaviour
 
     private void AimAtClosestEnemy()
     {
-        Enemy closestEnemy = FindClosestEnemy();
+        Monster closestEnemy = FindClosestEnemy();
 
         Vector2 targetVector;
 
@@ -125,7 +125,7 @@ public class Weapon : MonoBehaviour
 
         for (int i = 0; i < enemies.Length; i++)
         {
-            Enemy targetEnemy = enemies[i].GetComponent<Enemy>();
+            Monster targetEnemy = enemies[i].GetComponent<Monster>();
             if (!attackedEnemies.Contains(targetEnemy))
             {
                 targetEnemy.TakeDamage(damage);
@@ -134,9 +134,9 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private Enemy FindClosestEnemy()
+    private Monster FindClosestEnemy()
     {
-        Enemy closestEnemy = null;
+        Monster closestEnemy = null;
 
         // FindObjectsByType()를 Update() 메소드에서 프레임마다 호출하는 것은 권장하지 않는다
         // Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
@@ -154,7 +154,7 @@ public class Weapon : MonoBehaviour
             if (distance < minDistance)
             {
                 minDistance = distance;
-                closestEnemy = enemy.GetComponent<Enemy>();
+                closestEnemy = enemy.GetComponent<Monster>();
             }
         }
 
