@@ -6,7 +6,7 @@ public class Monster : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] SpriteRenderer enemyRenderer;
     [SerializeField] SpriteRenderer spawnIndicatorRenderer;
-    [SerializeField] Collider2D collider;
+    [SerializeField] Collider2D colliderComponent;
 
 
     [SerializeField] float moveSpeed;
@@ -88,7 +88,7 @@ public class Monster : MonoBehaviour
 
         hasSpawned = true;
 
-        collider.enabled = true;
+        colliderComponent.enabled = true;
     }
 
     void FollowPlayer(float distToPlayer)
