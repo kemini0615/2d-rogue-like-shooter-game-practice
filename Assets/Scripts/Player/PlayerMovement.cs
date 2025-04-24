@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] MobileJoystick joystick;
     [SerializeField] float moveSpeed;
-    [SerializeField] bool isKeyboard;
+    [SerializeField] bool useKeyboard;
 
     void Start()
     {
@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isKeyboard)
+        if (useKeyboard)
             rb.linearVelocity = GetMoveVectorByKeyboard() * moveSpeed * Time.fixedDeltaTime;
         else
             rb.linearVelocity = joystick.GetMoveVector() * moveSpeed * Time.fixedDeltaTime;

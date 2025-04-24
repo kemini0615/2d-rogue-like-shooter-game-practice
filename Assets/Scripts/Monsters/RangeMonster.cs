@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class RangeMonster : MonoBehaviour
 {
     [SerializeField] Player player;
     [SerializeField] SpriteRenderer enemyRenderer;
@@ -32,7 +32,6 @@ public class Monster : MonoBehaviour
 
         SpawnEnemy();
 
-        // Set and calculate attack delay from attack rate
         attackDelay = 1f / attackRate; 
 
         currentHp = maxHp;
@@ -49,6 +48,7 @@ public class Monster : MonoBehaviour
         attackTimer += Time.deltaTime;
     
         float distToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
         FollowPlayer(distToPlayer);
 
         if (attackTimer >= attackDelay)
@@ -57,7 +57,6 @@ public class Monster : MonoBehaviour
 
     Player FindPlayer()
     {
-        // Find and get the player object
         Player player = FindFirstObjectByType<Player>();
         if (player == null)
         {
@@ -93,7 +92,8 @@ public class Monster : MonoBehaviour
 
     void FollowPlayer(float distToPlayer)
     {
-        if (distToPlayer < 0.01f)
+        // 플레이어가 공격 범위 안에 있으면 이동을 멈춘다
+        if (distToPlayer <= attackRange)
             return;
 
         Vector2 direction = (player.transform.position - transform.position).normalized;

@@ -4990,7 +4990,7 @@ GameObject:
   - component: {fileID: 3594978199111735015}
   - component: {fileID: 4161428774488800381}
   m_Layer: 7
-  m_Name: Enemy Renderer
+  m_Name: Monster Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5054,7 +5054,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8ba2cfff186a7c94fa2d4771491769dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5091,7 +5091,7 @@ GameObject:
   - component: {fileID: 3286085320270387484}
   - component: {fileID: 4662526866347368100}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5130,7 +5130,7 @@ MonoBehaviour:
   player: {fileID: 0}
   enemyRenderer: {fileID: 3594978199111735015}
   spawnIndicatorRenderer: {fileID: 579294141430865760}
-  collider: {fileID: 4662526866347368100}
+  colliderComponent: {fileID: 4662526866347368100}
   moveSpeed: 3
   attackRange: 1
   attackDamage: 2
