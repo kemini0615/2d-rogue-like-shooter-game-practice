@@ -5089,6 +5089,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4509603582672475583}
   - component: {fileID: 2469250698463752261}
+  - component: {fileID: 3504095928784502116}
   - component: {fileID: 7465051254739892657}
   m_Layer: 7
   m_Name: Range Monster
@@ -5131,14 +5132,28 @@ MonoBehaviour:
   enemyRenderer: {fileID: 7440689491314068878}
   spawnIndicatorRenderer: {fileID: 1345537855265060235}
   colliderComponent: {fileID: 7465051254739892657}
+  shootingPoint: {fileID: 0}
+  bulletPrefab: {fileID: 0}
   moveSpeed: 3
-  attackRange: 1
+  attackRange: 5
   attackDamage: 2
   attackRate: 1
   hasSpawned: 0
   maxHp: 5
   currentHp: 5
   destroyParticleSystem: {fileID: 2373371681976999159}
+--- !u!114 &3504095928784502116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5577300490469253441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76232086525246a45ae4ffeb9cf83c74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!58 &7465051254739892657
 CircleCollider2D:
   m_ObjectHideFlags: 0

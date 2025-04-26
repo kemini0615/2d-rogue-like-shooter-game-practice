@@ -5,11 +5,38 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    // Singleton Pattern
+    private static Player instance;
+    public static Player Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                Debug.LogError("Player not found");
+            }
+
+            return instance;
+        }
+    }
+
     [SerializeField] Slider hpSlider;
     [SerializeField] TextMeshProUGUI hpText;
 
     [SerializeField] int maxHp;
     [SerializeField] int currentHp;
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     void Start()
     {
