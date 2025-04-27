@@ -1,10 +1,12 @@
 using Unity.Mathematics;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class RangeMonsterAttack : MonoBehaviour
 {   
-    [SerializeField] Transform shootingPoint;
     [SerializeField] MonsterBullet bulletPrefab;
+    [SerializeField] Transform shootingPoint;
 
     // [SerializeField] float attackRange;
     [SerializeField] int attackDamage;
@@ -12,15 +14,40 @@ public class RangeMonsterAttack : MonoBehaviour
     float attackDelay;
     float attackTimer;
 
+    ObjectPool<MonsterBullet> bulletPool;
+
     void Start()
     {
         attackDelay = 1f / attackRate; 
         attackTimer = attackDelay; // 시작하자마자 공격 가능
+
+        bulletPool = new ObjectPool<MonsterBullet>(CreateFunc, ActionOnGet, ActionOnRelease, ActionOnDestroy);
     }
 
     void Update()
     {
         attackTimer += Time.deltaTime;
+    }
+
+    MonsterBullet CreateFunc()
+    {
+        return Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
+    }
+
+    void ActionOnGet(MonsterBullet bullet)
+    {  
+        bullet.gameObject.SetActive(true);
+        bullet.Init(shootingPoint.position);
+    }
+
+    void ActionOnRelease(MonsterBullet bullet)
+    {
+        bullet.gameObject.SetActive(false);
+    }
+
+    void ActionOnDestroy(MonsterBullet bullet)
+    {
+        Destroy(bullet.gameObject);
     }
 
     public void TryAttack(float attackRange, float distToPlayer)
@@ -33,12 +60,12 @@ public class RangeMonsterAttack : MonoBehaviour
             RangeAttack();
     }
 
-    void Attack()
-    {
-        attackTimer = 0f;
+    // void Attack()
+    // {
+    //     attackTimer = 0f;
 
-        Player.Instance.TakeDamage(attackDamage);
-    }
+    //     Player.Instance.TakeDamage(attackDamage);
+    // }
 
     void RangeAttack()
     {
@@ -49,8 +76,16 @@ public class RangeMonsterAttack : MonoBehaviour
 
     void ShootBullet(Vector2 direction)
     {
-        MonsterBullet bullet = Instantiate(bulletPrefab, shootingPoint.position, quaternion.identity);
+        MonsterBullet bullet = bulletPool.Get();
+        bullet.expired -= ReleaseBullet;
+        bullet.expired += ReleaseBullet;
         bullet.Shoot(direction, attackDamage);
+    }
+
+    // 오브젝트 풀에 총알을 반납하는 콜백함수
+    public void ReleaseBullet(MonsterBullet bullet)
+    {
+        bulletPool.Release(bullet);
     }
 
     void OnDrawGizmos()

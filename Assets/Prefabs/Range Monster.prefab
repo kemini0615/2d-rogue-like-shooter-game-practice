@@ -5165,7 +5165,7 @@ MonoBehaviour:
   colliderComponent: {fileID: 7465051254739892657}
   rangeMonsterAttack: {fileID: 3504095928784502116}
   moveSpeed: 2
-  attackRange: 5
+  attackRange: 10
   hasSpawned: 0
   maxHp: 5
   currentHp: 5
@@ -5182,8 +5182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76232086525246a45ae4ffeb9cf83c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingPoint: {fileID: 1870848718073301513}
   bulletPrefab: {fileID: 4381472556998653471, guid: aae8b1d437a67694884c0fefebf621b7, type: 3}
+  shootingPoint: {fileID: 1870848718073301513}
   attackDamage: 2
   attackRate: 1
 --- !u!58 &7465051254739892657
