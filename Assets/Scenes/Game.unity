@@ -1035,6 +1035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpSlider: {fileID: 81523981}
   hpText: {fileID: 1655449032}
+  playerCollider: {fileID: 633023710}
   maxHp: 10
   currentHp: 10
 --- !u!1001 &825854127
@@ -10054,22 +10055,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 853155240}
     m_Modifications:
-    - target: {fileID: 2469250698463752261, guid: 126f8c6fdac530b4ba829aab02849cea, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 633023711}
-    - target: {fileID: 2469250698463752261, guid: 126f8c6fdac530b4ba829aab02849cea, type: 3}
-      propertyPath: rangeMonsterAttack
-      value: 
-      objectReference: {fileID: 4849666198694059378}
-    - target: {fileID: 3504095928784502116, guid: 126f8c6fdac530b4ba829aab02849cea, type: 3}
-      propertyPath: attackRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3504095928784502116, guid: 126f8c6fdac530b4ba829aab02849cea, type: 3}
-      propertyPath: attackDamage
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4509603582672475583, guid: 126f8c6fdac530b4ba829aab02849cea, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.12
@@ -10114,8 +10099,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Range Monster
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9133913552439910721, guid: 126f8c6fdac530b4ba829aab02849cea, type: 3}
+    - target: {fileID: 7465051254739892657, guid: 126f8c6fdac530b4ba829aab02849cea, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -10125,17 +10113,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4509603582672475583, guid: 126f8c6fdac530b4ba829aab02849cea, type: 3}
   m_PrefabInstance: {fileID: 736060413109022658}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4849666198694059378 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3504095928784502116, guid: 126f8c6fdac530b4ba829aab02849cea, type: 3}
-  m_PrefabInstance: {fileID: 736060413109022658}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76232086525246a45ae4ffeb9cf83c74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

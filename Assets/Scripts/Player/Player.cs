@@ -11,17 +11,15 @@ public class Player : MonoBehaviour
     {
         get
         {
-            if (instance == null)
-            {
-                Debug.LogError("Player not found");
-            }
-
             return instance;
         }
     }
 
+    const float ScaleMultiplier = 0.25f;
+
     [SerializeField] Slider hpSlider;
     [SerializeField] TextMeshProUGUI hpText;
+    [SerializeField] CircleCollider2D playerCollider;
 
     [SerializeField] int maxHp;
     [SerializeField] int currentHp;
@@ -69,5 +67,10 @@ public class Player : MonoBehaviour
     {
         Destroy(gameObject);
         SceneManager.LoadScene(0);
+    }
+
+    public Vector2 GetCenterPosition()
+    {
+        return (Vector2) transform.position + playerCollider.offset * ScaleMultiplier;
     }
 }

@@ -4992,6 +4992,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7440689491314068878}
+--- !u!1 &3862693377521039326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1870848718073301513}
+  m_Layer: 7
+  m_Name: Shooting Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1870848718073301513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3862693377521039326}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.4, y: 0.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4509603582672475583}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3978943794642291352
 GameObject:
   m_ObjectHideFlags: 0
@@ -5114,6 +5145,7 @@ Transform:
   - {fileID: 1619010661079811472}
   - {fileID: 1006876525003371804}
   - {fileID: 4365805140992018641}
+  - {fileID: 1870848718073301513}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2469250698463752261
@@ -5128,16 +5160,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2df1251e9fd0f5438c0b2bf578ed504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   enemyRenderer: {fileID: 7440689491314068878}
   spawnIndicatorRenderer: {fileID: 1345537855265060235}
   colliderComponent: {fileID: 7465051254739892657}
-  shootingPoint: {fileID: 0}
-  bulletPrefab: {fileID: 0}
+  rangeMonsterAttack: {fileID: 3504095928784502116}
   moveSpeed: 3
   attackRange: 5
-  attackDamage: 2
-  attackRate: 1
   hasSpawned: 0
   maxHp: 5
   currentHp: 5
@@ -5154,6 +5182,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76232086525246a45ae4ffeb9cf83c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootingPoint: {fileID: 1870848718073301513}
+  bulletPrefab: {fileID: 1268507699096042503, guid: aae8b1d437a67694884c0fefebf621b7, type: 3}
+  attackDamage: 2
+  attackRate: 1
 --- !u!58 &7465051254739892657
 CircleCollider2D:
   m_ObjectHideFlags: 0

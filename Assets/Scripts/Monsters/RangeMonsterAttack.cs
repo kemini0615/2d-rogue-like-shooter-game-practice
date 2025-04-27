@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class RangeMonsterAttack : MonoBehaviour
@@ -29,7 +30,7 @@ public class RangeMonsterAttack : MonoBehaviour
 
         // 플레이어가 공격 범위 안에 있으면 공격한다
         if (distToPlayer <= attackRange)
-            Attack();
+            RangeAttack();
     }
 
     void Attack()
@@ -37,5 +38,31 @@ public class RangeMonsterAttack : MonoBehaviour
         attackTimer = 0f;
 
         Player.Instance.TakeDamage(attackDamage);
+    }
+
+    void RangeAttack()
+    {
+        Vector2 direction = (Player.Instance.GetCenterPosition() - (Vector2) shootingPoint.position).normalized;
+        Shoot(direction);
+        attackTimer = 0f;
+    }
+
+    void Shoot(Vector2 direction)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, quaternion.identity);
+        bullet.transform.right = direction;
+        // * Rigidbody.velocity는 더이상 사용하지 않는다 *
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 10;
+    }
+
+    void OnDrawGizmos()
+    {
+        if (!Player.Instance)
+            return;
+
+        Vector2 direction = Player.Instance.GetCenterPosition() - (Vector2) shootingPoint.position;
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(shootingPoint.position, (Vector2) shootingPoint.position + direction);
     }
 }
