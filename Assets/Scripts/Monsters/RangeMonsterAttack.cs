@@ -4,7 +4,7 @@ using UnityEngine;
 public class RangeMonsterAttack : MonoBehaviour
 {   
     [SerializeField] Transform shootingPoint;
-    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] MonsterBullet bulletPrefab;
 
     // [SerializeField] float attackRange;
     [SerializeField] int attackDamage;
@@ -43,16 +43,14 @@ public class RangeMonsterAttack : MonoBehaviour
     void RangeAttack()
     {
         Vector2 direction = (Player.Instance.GetCenterPosition() - (Vector2) shootingPoint.position).normalized;
-        Shoot(direction);
+        ShootBullet(direction);
         attackTimer = 0f;
     }
 
-    void Shoot(Vector2 direction)
+    void ShootBullet(Vector2 direction)
     {
-        GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, quaternion.identity);
-        bullet.transform.right = direction;
-        // * Rigidbody.velocity는 더이상 사용하지 않는다 *
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 10;
+        MonsterBullet bullet = Instantiate(bulletPrefab, shootingPoint.position, quaternion.identity);
+        bullet.Shoot(direction, attackDamage);
     }
 
     void OnDrawGizmos()

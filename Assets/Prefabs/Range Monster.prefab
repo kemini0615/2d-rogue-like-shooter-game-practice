@@ -5164,7 +5164,7 @@ MonoBehaviour:
   spawnIndicatorRenderer: {fileID: 1345537855265060235}
   colliderComponent: {fileID: 7465051254739892657}
   rangeMonsterAttack: {fileID: 3504095928784502116}
-  moveSpeed: 3
+  moveSpeed: 2
   attackRange: 5
   hasSpawned: 0
   maxHp: 5
@@ -5183,7 +5183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootingPoint: {fileID: 1870848718073301513}
-  bulletPrefab: {fileID: 1268507699096042503, guid: aae8b1d437a67694884c0fefebf621b7, type: 3}
+  bulletPrefab: {fileID: 4381472556998653471, guid: aae8b1d437a67694884c0fefebf621b7, type: 3}
   attackDamage: 2
   attackRate: 1
 --- !u!58 &7465051254739892657
@@ -5216,7 +5216,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
