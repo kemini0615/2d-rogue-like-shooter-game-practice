@@ -10,7 +10,7 @@ public class MonsterBullet : MonoBehaviour
     [SerializeField] float speed;
     int attackDamage;
 
-    public Action<MonsterBullet> expired;
+    public Action<MonsterBullet> bulletExpired;
     float life = 5f;
 
     void Awake()
@@ -26,7 +26,7 @@ public class MonsterBullet : MonoBehaviour
         this.bulletCollider.enabled = true;
         
         // 코루틴 시작
-        StartCoroutine("ReleaseCoroutine");
+        StartCoroutine(ReleaseCoroutine());
     }
 
     public void Shoot(Vector2 direction, int attackDamage)
@@ -43,14 +43,14 @@ public class MonsterBullet : MonoBehaviour
         if (otherCollider.TryGetComponent(out Player player))
         {
             // 코루틴 종료
-            StopCoroutine("ReleaseCoroutine");
+            StopCoroutine(ReleaseCoroutine());
 
             player.TakeDamage(this.attackDamage);
 
             this.bulletCollider.enabled = false;
             
             // 플레이어와 충돌하면 오브젝트 풀에 반납
-            expired?.Invoke(this);
+            bulletExpired?.Invoke(this);
         }
     }
 
@@ -60,6 +60,6 @@ public class MonsterBullet : MonoBehaviour
         yield return new WaitForSeconds(life); // N초 대기
 
         // 플레이어와 충돌하지 않은 채로 일정 시간(N초)이 지나면 오브젝트 풀에 반납
-        expired?.Invoke(this);
+        bulletExpired?.Invoke(this);
     }
 }

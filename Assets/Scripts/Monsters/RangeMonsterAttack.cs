@@ -21,7 +21,7 @@ public class RangeMonsterAttack : MonoBehaviour
         attackDelay = 1f / attackRate; 
         attackTimer = attackDelay; // 시작하자마자 공격 가능
 
-        bulletPool = new ObjectPool<MonsterBullet>(CreateFunc, ActionOnGet, ActionOnRelease, ActionOnDestroy);
+        bulletPool = new ObjectPool<MonsterBullet>(CreateBullet, OnGetBullet, OnReleaseBullet, OnDestroyBullet);
     }
 
     void Update()
@@ -29,23 +29,23 @@ public class RangeMonsterAttack : MonoBehaviour
         attackTimer += Time.deltaTime;
     }
 
-    MonsterBullet CreateFunc()
+    MonsterBullet CreateBullet()
     {
         return Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
     }
 
-    void ActionOnGet(MonsterBullet bullet)
+    void OnGetBullet(MonsterBullet bullet)
     {  
         bullet.gameObject.SetActive(true);
         bullet.Init(shootingPoint.position);
     }
 
-    void ActionOnRelease(MonsterBullet bullet)
+    void OnReleaseBullet(MonsterBullet bullet)
     {
         bullet.gameObject.SetActive(false);
     }
 
-    void ActionOnDestroy(MonsterBullet bullet)
+    void OnDestroyBullet(MonsterBullet bullet)
     {
         Destroy(bullet.gameObject);
     }
@@ -77,8 +77,8 @@ public class RangeMonsterAttack : MonoBehaviour
     void ShootBullet(Vector2 direction)
     {
         MonsterBullet bullet = bulletPool.Get();
-        bullet.expired -= ReleaseBullet;
-        bullet.expired += ReleaseBullet;
+        bullet.bulletExpired -= ReleaseBullet;
+        bullet.bulletExpired += ReleaseBullet;
         bullet.Shoot(direction, attackDamage);
     }
 
