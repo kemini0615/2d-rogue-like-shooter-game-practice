@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public abstract class Monster : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] protected SpriteRenderer monsterRenderer;
@@ -11,6 +11,7 @@ public class Monster : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float targetDistance;
 
     [Header("Health")]
     [SerializeField] protected int maxHp;
@@ -22,10 +23,18 @@ public class Monster : MonoBehaviour
     [Header("Events")]
     public static Action<int, Vector2> onDamaged;
 
-    protected void Start()
+    protected virtual void Start()
     {
         currentHp = maxHp;
         Spawn();
+    }
+
+    protected virtual bool CanFollowPlayer()
+    {
+        if (!hasSpawned || Player.Instance == null)
+            return false;
+
+        return true;
     }
 
     protected void Spawn()
@@ -50,12 +59,36 @@ public class Monster : MonoBehaviour
         hasSpawned = true;
     }
 
-    protected void FollowPlayer(float distToPlayer)
+    protected void FollowPlayer()
     {
-        if (distToPlayer < 0.01f)
+        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
+        if (distToPlayer < targetDistance)
             return;
 
         Vector2 direction = (Player.Instance.transform.position - transform.position).normalized;
         transform.position = (Vector2) transform.position + direction * moveSpeed * Time.deltaTime;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (currentHp > damage)
+        {
+            currentHp -= damage;
+        }
+        else
+        {
+            currentHp = 0;
+            Die();
+        }
+
+        onDamaged?.Invoke(damage, transform.position);
+    }
+
+    protected void Die()
+    {
+        // 파티클 시스템을 몬스터 게임 오브젝트에서 분리한다
+        destroyParticleSystem.transform.parent = null;
+        destroyParticleSystem.Play();
+        Destroy(gameObject);
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class MeleeMonster : Monster
@@ -10,39 +9,31 @@ public class MeleeMonster : Monster
     float attackDelay;
     float attackTimer;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         attackDelay = 1f / attackRate; 
     }
 
-    void Update()
+    protected void Update()
     {
-        if (!hasSpawned)
+        if (!CanFollowPlayer())
             return;
 
-        if (Player.Instance == null)
-            return;
+        FollowPlayer();
 
         attackTimer += Time.deltaTime;
-    
-        float distToPlayer = Vector2.Distance(transform.position, player.transform.position);
-        FollowPlayer(distToPlayer);
-
-        if (attackTimer >= attackDelay)
-            TryAttack(distToPlayer);
+        TryAttack();
     }
 
-    void FollowPlayer(float distToPlayer)
+    void TryAttack()
     {
-        if (distToPlayer < 0.01f)
+        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
+
+        if (attackTimer < attackDelay)
             return;
 
-        Vector2 direction = (Player.Instance.transform.position - transform.position).normalized;
-        transform.position = (Vector2) transform.position + direction * moveSpeed * Time.deltaTime;
-    }
-
-    void TryAttack(float distToPlayer)
-    {
         // 플레이어가 공격 범위 안에 있으면 공격한다
         if (distToPlayer <= attackRange)
             Attack();
@@ -53,31 +44,6 @@ public class MeleeMonster : Monster
         attackTimer = 0f;
 
         Player.Instance.TakeDamage(attackDamage);
-    }
-
-    public void TakeDamage(int damage)
-    {
-        if (currentHp > damage)
-        {
-            currentHp -= damage;
-        }
-        else
-        {
-            currentHp = 0;
-            Die();
-        }
-
-        onDamaged?.Invoke(damage, transform.position);
-    }
-
-    void Die()
-    {
-        // 파티클 시스템을 몬스터 게임 오브젝트에서 분리한다
-        destroyParticleSystem.transform.parent = null;
-
-        destroyParticleSystem.Play();
-
-        Destroy(gameObject);
     }
 
     void OnDrawGizmos()

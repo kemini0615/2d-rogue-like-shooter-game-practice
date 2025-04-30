@@ -1,65 +1,17 @@
-using System;
 using UnityEngine;
 
 public class RangeMonster : Monster
 {
     [Header("Attack")]
     [SerializeField] RangeMonsterAttack rangeMonsterAttack;
-    [SerializeField] float attackRange;
 
-    void Update()
+    protected void Update()
     {
-        if (!hasSpawned)
+        if (!CanFollowPlayer())
             return;
 
-        if (Player.Instance == null)
-            return;
-    
-        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
+        FollowPlayer();
 
-        FollowPlayer(distToPlayer);
-
-        rangeMonsterAttack.TryAttack(attackRange, distToPlayer);
-    }
-
-    void FollowPlayer(float distToPlayer)
-    {
-        // 플레이어가 공격 범위 안에 있으면 이동을 멈춘다
-        if (distToPlayer <= attackRange)
-            return;
-
-        Vector2 direction = (Player.Instance.transform.position - transform.position).normalized;
-        transform.position = (Vector2) transform.position + direction * moveSpeed * Time.deltaTime;
-    }
-
-    public void TakeDamage(int damage)
-    {
-        if (currentHp > damage)
-        {
-            currentHp -= damage;
-        }
-        else
-        {
-            currentHp = 0;
-            Die();
-        }
-
-        onDamaged?.Invoke(damage, transform.position);
-    }
-
-    void Die()
-    {
-        // 파티클 시스템을 몬스터 게임 오브젝트에서 분리한다
-        destroyParticleSystem.transform.parent = null;
-
-        destroyParticleSystem.Play();
-
-        Destroy(gameObject);
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        rangeMonsterAttack.TryAttack();
     }
 }

@@ -8,7 +8,7 @@ public class RangeMonsterAttack : MonoBehaviour
     [SerializeField] MonsterBullet bulletPrefab;
     [SerializeField] Transform shootingPoint;
 
-    // [SerializeField] float attackRange;
+    [SerializeField] float attackRange;
     [SerializeField] int attackDamage;
     [SerializeField] float attackRate;
     float attackDelay;
@@ -50,8 +50,10 @@ public class RangeMonsterAttack : MonoBehaviour
         Destroy(bullet.gameObject);
     }
 
-    public void TryAttack(float attackRange, float distToPlayer)
+    public void TryAttack()
     {
+        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
+
         if (attackTimer < attackDelay)
             return;
 
@@ -59,13 +61,6 @@ public class RangeMonsterAttack : MonoBehaviour
         if (distToPlayer <= attackRange)
             RangeAttack();
     }
-
-    // void Attack()
-    // {
-    //     attackTimer = 0f;
-
-    //     Player.Instance.TakeDamage(attackDamage);
-    // }
 
     void RangeAttack()
     {
@@ -97,5 +92,8 @@ public class RangeMonsterAttack : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawLine(shootingPoint.position, (Vector2) shootingPoint.position + direction);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
