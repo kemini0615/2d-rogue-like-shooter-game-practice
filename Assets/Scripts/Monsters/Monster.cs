@@ -29,14 +29,6 @@ public abstract class Monster : MonoBehaviour
         Spawn();
     }
 
-    protected virtual bool CanFollowPlayer()
-    {
-        if (!hasSpawned || Player.Instance == null)
-            return false;
-
-        return true;
-    }
-
     protected void Spawn()
     {
         monsterRenderer.enabled = false;
@@ -57,6 +49,14 @@ public abstract class Monster : MonoBehaviour
         colliderComponent.enabled = true;
 
         hasSpawned = true;
+    }
+
+    protected virtual bool CanFollowPlayer()
+    {
+        if (!hasSpawned || Player.Instance == null)
+            return false;
+
+        return true;
     }
 
     protected void FollowPlayer()

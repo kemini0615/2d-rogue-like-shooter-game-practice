@@ -5160,16 +5160,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2df1251e9fd0f5438c0b2bf578ed504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyRenderer: {fileID: 7440689491314068878}
+  monsterRenderer: {fileID: 7440689491314068878}
   spawnIndicatorRenderer: {fileID: 1345537855265060235}
   colliderComponent: {fileID: 7465051254739892657}
-  rangeMonsterAttack: {fileID: 3504095928784502116}
+  destroyParticleSystem: {fileID: 2373371681976999159}
   moveSpeed: 2
-  attackRange: 10
-  hasSpawned: 0
+  targetDistance: 5
   maxHp: 5
   currentHp: 5
-  destroyParticleSystem: {fileID: 2373371681976999159}
+  hasSpawned: 0
+  rangeMonsterAttack: {fileID: 3504095928784502116}
 --- !u!114 &3504095928784502116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5184,6 +5184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 4381472556998653471, guid: aae8b1d437a67694884c0fefebf621b7, type: 3}
   shootingPoint: {fileID: 1870848718073301513}
+  attackRange: 5
   attackDamage: 2
   attackRate: 1
 --- !u!58 &7465051254739892657

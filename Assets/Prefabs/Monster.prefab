@@ -5127,18 +5127,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b69b99e160351ef45a358323ecb21295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  enemyRenderer: {fileID: 3594978199111735015}
+  monsterRenderer: {fileID: 3594978199111735015}
   spawnIndicatorRenderer: {fileID: 579294141430865760}
   colliderComponent: {fileID: 4662526866347368100}
+  destroyParticleSystem: {fileID: 2308584487520372440}
   moveSpeed: 3
+  targetDistance: 0.01
+  maxHp: 10
+  currentHp: 10
+  hasSpawned: 0
   attackRange: 1
   attackDamage: 2
   attackRate: 1
-  hasSpawned: 0
-  maxHp: 10
-  currentHp: 10
-  destroyParticleSystem: {fileID: 2308584487520372440}
 --- !u!58 &4662526866347368100
 CircleCollider2D:
   m_ObjectHideFlags: 0
