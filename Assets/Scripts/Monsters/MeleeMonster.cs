@@ -1,11 +1,19 @@
 using System;
 using UnityEngine;
 
-public class RangeMonster : Monster
+public class MeleeMonster : Monster
 {
     [Header("Attack")]
-    [SerializeField] RangeMonsterAttack rangeMonsterAttack;
     [SerializeField] float attackRange;
+    [SerializeField] int attackDamage;
+    [SerializeField] float attackRate;
+    float attackDelay;
+    float attackTimer;
+
+    void Start()
+    {
+        attackDelay = 1f / attackRate; 
+    }
 
     void Update()
     {
@@ -14,22 +22,37 @@ public class RangeMonster : Monster
 
         if (Player.Instance == null)
             return;
-    
-        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
 
+        attackTimer += Time.deltaTime;
+    
+        float distToPlayer = Vector2.Distance(transform.position, player.transform.position);
         FollowPlayer(distToPlayer);
 
-        rangeMonsterAttack.TryAttack(attackRange, distToPlayer);
+        if (attackTimer >= attackDelay)
+            TryAttack(distToPlayer);
     }
 
     void FollowPlayer(float distToPlayer)
     {
-        // 플레이어가 공격 범위 안에 있으면 이동을 멈춘다
-        if (distToPlayer <= attackRange)
+        if (distToPlayer < 0.01f)
             return;
 
         Vector2 direction = (Player.Instance.transform.position - transform.position).normalized;
         transform.position = (Vector2) transform.position + direction * moveSpeed * Time.deltaTime;
+    }
+
+    void TryAttack(float distToPlayer)
+    {
+        // 플레이어가 공격 범위 안에 있으면 공격한다
+        if (distToPlayer <= attackRange)
+            Attack();
+    }
+
+    void Attack()
+    {
+        attackTimer = 0f;
+
+        Player.Instance.TakeDamage(attackDamage);
     }
 
     public void TakeDamage(int damage)
