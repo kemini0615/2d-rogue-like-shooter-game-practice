@@ -9,7 +9,7 @@ public class DamageTextManager : MonoBehaviour
 
     void Awake()
     {
-        MeleeMonster.onDamaged += InstantiateDamangeText;
+        Monster.onDamaged += InstantiateDamangeText;
     }
 
     void Start()
@@ -41,9 +41,9 @@ public class DamageTextManager : MonoBehaviour
         Destroy(damageText.gameObject);
     }
 
-    void InstantiateDamangeText(int damage, Vector2 enemyPosition)
+    void InstantiateDamangeText(int damage, Vector2 monsterPosition)
     {
-        Vector3 spawnPosition = enemyPosition + Vector2.up * 1.5f;
+        Vector3 spawnPosition = monsterPosition + Vector2.up * 1.5f;
         DamageText instance = damageTextPool.Get(); // 오브젝트 풀에서 오브젝트를 가져온다
         instance.transform.position = spawnPosition;
         instance.FadeOut(damage);

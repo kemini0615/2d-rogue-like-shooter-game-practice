@@ -3,6 +3,21 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [Header("Components")]
+    [SerializeField] Transform hitSpotTransform;
+    [SerializeField] BoxCollider2D hitSpotCollider;
+    [SerializeField] Animator animator;
+
+    [Header("Attack")]
+    [SerializeField] LayerMask monsterMask;
+    [SerializeField] float lerpMultiplier;
+    [SerializeField] float detectRange;
+    [SerializeField] int damage;
+    [SerializeField] float attackRate;
+    float attackDelay;
+    float attackTimer;
+    List<Monster> attackedMonsters = new List<Monster>();
+    
     enum State
     {
         Idle,
@@ -10,23 +25,6 @@ public class Weapon : MonoBehaviour
     }
 
     State state;
-
-    [SerializeField] Transform hitSpotTransform;
-    [SerializeField] BoxCollider2D hitSpotCollider;
-    [SerializeField] float hitSpotRadius;
-
-    [SerializeField] LayerMask enemyMask;
-    [SerializeField] float detectRange;
-    [SerializeField] int damage;
-
-    [SerializeField] float lerpMultiplier;
-
-    [SerializeField] Animator animator;
-
-    List<MeleeMonster> attackedEnemies = new List<MeleeMonster>();
-    [SerializeField] float attackRate;
-    float attackDelay;
-    float attackTimer;
 
     void Start()
     {
@@ -42,43 +40,43 @@ public class Weapon : MonoBehaviour
         switch (state)
         {
             case State.Idle:
-                UpdateIdle();
+                UpdateIdleState();
                 break;
             case State.Attack:
-                UpdateAttack();
+                UpdateAttackState();
                 break;
         }   
     }
 
-    void StartIdle() {}
+    void StartIdleState() {}
 
-    void UpdateIdle()
+    void UpdateIdleState()
     {
         IncreaseAttackTimer();
-        AimAtClosestEnemy();
+        AimAtClosestMonster();
     }
 
-    void ExitIdle() {}
+    void ExitIdleState() {}
 
-    void StartAttack()
+    void StartAttackState()
     {
-        attackedEnemies.Clear();
+        attackedMonsters.Clear();
 
         animator.speed = attackRate;
         animator.Play("Attack");
         state = State.Attack;
     }
 
-    void UpdateAttack()
+    void UpdateAttackState()
     {
         Attack();
     }
     
     // Attack 애니메이션이 끝나면 호출된다
-    void ExitAttack()
+    void ExitAttackState()
     {
         state = State.Idle;
-        attackedEnemies.Clear();
+        attackedMonsters.Clear();
     }
 
     void IncreaseAttackTimer()
@@ -86,17 +84,17 @@ public class Weapon : MonoBehaviour
         attackTimer += Time.deltaTime;
     }
 
-    private void AimAtClosestEnemy()
+    private void AimAtClosestMonster()
     {
-        MeleeMonster closestEnemy = FindClosestEnemy();
+        Monster closestMonster = FindClosestMonster();
 
         Vector2 targetVector;
 
         // 가장 가까운 적이 있다면
-        if (closestEnemy != null)
+        if (closestMonster != null)
         {
             // 바로 가장 가까운 적을 향한다
-            targetVector = (closestEnemy.transform.position - transform.position).normalized;
+            targetVector = (closestMonster.transform.position - transform.position).normalized;
             transform.up = targetVector;
             
             // 공격을 시도한다
@@ -110,61 +108,60 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    private Monster FindClosestMonster()
+    {
+        Monster closestMonster = null;
+
+        // FindObjectsByType()를 Update() 메소드에서 프레임마다 호출하는 것은 권장하지 않는다
+        // Monster[] monsters = FindObjectsByType<Monster>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        Collider2D[] monsterColliders = Physics2D.OverlapCircleAll(transform.position, detectRange, monsterMask);
+
+        if (monsterColliders.Length <= 0)
+            return null;
+
+        float minDistance = detectRange;
+
+        for (int i = 0; i < monsterColliders.Length; i++)
+        {
+            Collider2D monsterCollider = monsterColliders[i];
+            float distance = Vector2.Distance(monsterCollider.transform.position, transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestMonster = monsterCollider.GetComponent<Monster>();
+            }
+        }
+
+        return closestMonster;
+    }
+
     void TryAutoAttack()
     {
         if (attackTimer > attackDelay)
         {
             attackTimer = 0;
-            StartAttack();
+            StartAttackState();
         }
     }
 
     private void Attack()
     {
-        Collider2D[] enemies = Physics2D.OverlapBoxAll(hitSpotTransform.position, hitSpotCollider.bounds.size, hitSpotTransform.localEulerAngles.z, enemyMask);
+        Collider2D[] monsterColliders = Physics2D.OverlapBoxAll(hitSpotTransform.position, hitSpotCollider.bounds.size, hitSpotTransform.localEulerAngles.z, monsterMask);
 
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < monsterColliders.Length; i++)
         {
-            MeleeMonster targetEnemy = enemies[i].GetComponent<MeleeMonster>();
-            if (!attackedEnemies.Contains(targetEnemy))
+            Monster targetMonster = monsterColliders[i].GetComponent<Monster>();
+            if (!attackedMonsters.Contains(targetMonster))
             {
-                targetEnemy.TakeDamage(damage);
-                attackedEnemies.Add(targetEnemy);
+                targetMonster.TakeDamage(damage);
+                attackedMonsters.Add(targetMonster);
             }
         }
-    }
-
-    private MeleeMonster FindClosestEnemy()
-    {
-        MeleeMonster closestEnemy = null;
-
-        // FindObjectsByType()를 Update() 메소드에서 프레임마다 호출하는 것은 권장하지 않는다
-        // Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, detectRange, enemyMask);
-
-        if (enemies.Length <= 0)
-            return null;
-
-        float minDistance = detectRange;
-
-        for (int i = 0; i < enemies.Length; i++)
-        {
-            Collider2D enemy = enemies[i];
-            float distance = Vector2.Distance(enemy.transform.position, transform.position);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closestEnemy = enemy.GetComponent<MeleeMonster>();
-            }
-        }
-
-        return closestEnemy;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRange);
-        Gizmos.DrawWireSphere(hitSpotTransform.position, hitSpotRadius);
     }
 }

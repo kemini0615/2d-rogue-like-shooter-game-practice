@@ -1500,14 +1500,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitSpotTransform: {fileID: 1310680918}
   hitSpotCollider: {fileID: 1310680919}
-  hitSpotRadius: 0.6
-  enemyMask:
+  animator: {fileID: 1042599791}
+  monsterMask:
     serializedVersion: 2
     m_Bits: 128
+  lerpMultiplier: 10
   detectRange: 3
   damage: 5
-  lerpMultiplier: 10
-  animator: {fileID: 1042599791}
   attackRate: 2
 --- !u!95 &1042599791
 Animator:
