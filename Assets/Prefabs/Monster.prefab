@@ -5089,6 +5089,7 @@ GameObject:
   m_Component:
   - component: {fileID: 487645636957145016}
   - component: {fileID: 3286085320270387484}
+  - component: {fileID: 4846354213746443199}
   - component: {fileID: 4662526866347368100}
   m_Layer: 7
   m_Name: Monster
@@ -5127,18 +5128,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b69b99e160351ef45a358323ecb21295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterMovement: {fileID: 4846354213746443199}
   monsterRenderer: {fileID: 3594978199111735015}
   spawnIndicatorRenderer: {fileID: 579294141430865760}
   colliderComponent: {fileID: 4662526866347368100}
   destroyParticleSystem: {fileID: 2308584487520372440}
-  moveSpeed: 3
-  targetDistance: 0.01
   maxHp: 10
   currentHp: 10
   hasSpawned: 0
   attackRange: 1
   attackDamage: 2
   attackRate: 1
+--- !u!114 &4846354213746443199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7881226997657126882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b119d29c54383a49aec0ebd1231a026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3.5
+  targetDistance: 0.1
 --- !u!58 &4662526866347368100
 CircleCollider2D:
   m_ObjectHideFlags: 0

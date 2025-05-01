@@ -4,14 +4,11 @@ using UnityEngine;
 public abstract class Monster : MonoBehaviour
 {
     [Header("Components")]
+    [SerializeField] protected MonsterMovement monsterMovement;
     [SerializeField] protected SpriteRenderer monsterRenderer;
     [SerializeField] protected SpriteRenderer spawnIndicatorRenderer;
     [SerializeField] protected Collider2D colliderComponent;
     [SerializeField] protected ParticleSystem destroyParticleSystem;
-
-    [Header("Movement")]
-    [SerializeField] protected float moveSpeed;
-    [SerializeField] protected float targetDistance;
 
     [Header("Health")]
     [SerializeField] protected int maxHp;
@@ -57,16 +54,6 @@ public abstract class Monster : MonoBehaviour
             return false;
 
         return true;
-    }
-
-    protected void FollowPlayer()
-    {
-        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
-        if (distToPlayer < targetDistance)
-            return;
-
-        Vector2 direction = (Player.Instance.transform.position - transform.position).normalized;
-        transform.position = (Vector2) transform.position + direction * moveSpeed * Time.deltaTime;
     }
 
     public void TakeDamage(int damage)

@@ -5120,6 +5120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4509603582672475583}
   - component: {fileID: 2469250698463752261}
+  - component: {fileID: 5393130093969366863}
   - component: {fileID: 3504095928784502116}
   - component: {fileID: 7465051254739892657}
   m_Layer: 7
@@ -5160,16 +5161,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2df1251e9fd0f5438c0b2bf578ed504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterMovement: {fileID: 5393130093969366863}
   monsterRenderer: {fileID: 7440689491314068878}
   spawnIndicatorRenderer: {fileID: 1345537855265060235}
   colliderComponent: {fileID: 7465051254739892657}
   destroyParticleSystem: {fileID: 2373371681976999159}
-  moveSpeed: 2
-  targetDistance: 5
   maxHp: 5
   currentHp: 5
   hasSpawned: 0
   rangeMonsterAttack: {fileID: 3504095928784502116}
+--- !u!114 &5393130093969366863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5577300490469253441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b119d29c54383a49aec0ebd1231a026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  targetDistance: 5
 --- !u!114 &3504095928784502116
 MonoBehaviour:
   m_ObjectHideFlags: 0

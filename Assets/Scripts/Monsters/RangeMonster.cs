@@ -10,15 +10,9 @@ public class RangeMonster : Monster
         if (!CanFollowPlayer())
             return;
 
-        FacePlayer();
-        FollowPlayer();
+        monsterMovement.FacePlayer();
+        monsterMovement.FollowPlayer();
 
         rangeMonsterAttack.TryAttack();
-    }
-
-    void FacePlayer()
-    {
-        bool facingRight = Player.Instance.transform.position.x > transform.position.x;
-        transform.localScale = facingRight ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
     }
 }

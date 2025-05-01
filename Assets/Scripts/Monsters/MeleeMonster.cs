@@ -21,7 +21,7 @@ public class MeleeMonster : Monster
         if (!CanFollowPlayer())
             return;
 
-        FollowPlayer();
+        monsterMovement.FollowPlayer();
 
         attackTimer += Time.deltaTime;
         TryAttack();
