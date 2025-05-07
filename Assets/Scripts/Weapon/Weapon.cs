@@ -1,40 +1,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] Transform hitSpotTransform;
-    [SerializeField] BoxCollider2D hitSpotCollider;
+    // [SerializeField] Transform hitSpotTransform;
+    // [SerializeField] BoxCollider2D hitSpotCollider;
     [SerializeField] Animator animator;
 
     [Header("Attack")]
-    [SerializeField] LayerMask monsterMask;
-    [SerializeField] float lerpMultiplier;
-    [SerializeField] float detectRange;
-    [SerializeField] int damage;
-    [SerializeField] float attackRate;
-    float attackDelay;
-    float attackTimer;
-    List<Monster> attackedMonsters = new List<Monster>();
+    [SerializeField] protected LayerMask monsterMask;
+    [SerializeField] protected float lerpMultiplier;
+    [SerializeField] protected float detectRange;
+    [SerializeField] protected int damage;
+    [SerializeField] protected float attackRate;
+    protected float attackDelay;
+    protected float attackTimer;
+    protected List<Monster> attackedMonsters = new List<Monster>();
     
-    enum State
+    protected enum State
     {
         Idle,
         Attack,
     }
 
-    State state;
+    protected State state;
 
-    void Start()
+    protected virtual void Start()
     {
         state = State.Idle;
         attackDelay = 1f / attackRate;
-
-        hitSpotCollider = hitSpotTransform.GetComponent<BoxCollider2D>();
     }
 
-    void Update()
+    protected void Update()
     {
         // State machine pattern
         switch (state)
@@ -48,17 +46,13 @@ public class Weapon : MonoBehaviour
         }   
     }
 
-    void StartIdleState() {}
-
-    void UpdateIdleState()
+    protected void UpdateIdleState()
     {
         IncreaseAttackTimer();
         AimAtClosestMonster();
     }
 
-    void ExitIdleState() {}
-
-    void StartAttackState()
+    protected void StartAttackState()
     {
         attackedMonsters.Clear();
 
@@ -67,24 +61,24 @@ public class Weapon : MonoBehaviour
         state = State.Attack;
     }
 
-    void UpdateAttackState()
+    protected void UpdateAttackState()
     {
         Attack();
     }
     
     // Attack 애니메이션이 끝나면 호출된다
-    void ExitAttackState()
+    protected void ExitAttackState()
     {
         state = State.Idle;
         attackedMonsters.Clear();
     }
 
-    void IncreaseAttackTimer()
+    protected void IncreaseAttackTimer()
     {
         attackTimer += Time.deltaTime;
     }
 
-    private void AimAtClosestMonster()
+    protected void AimAtClosestMonster()
     {
         Monster closestMonster = FindClosestMonster();
 
@@ -96,19 +90,20 @@ public class Weapon : MonoBehaviour
             // 바로 가장 가까운 적을 향한다
             targetVector = (closestMonster.transform.position - transform.position).normalized;
             transform.up = targetVector;
-            
-            // 공격을 시도한다
-            TryAutoAttack();
         }
         else
         {
             // 가장 가까운 적이 없다면 천천히 위쪽 방향을 향한다
             targetVector = Vector2.up;
             transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
+            return;
         }
+
+        // 공격을 시도한다
+        TryAttack();
     }
 
-    private Monster FindClosestMonster()
+    protected Monster FindClosestMonster()
     {
         Monster closestMonster = null;
 
@@ -135,31 +130,10 @@ public class Weapon : MonoBehaviour
         return closestMonster;
     }
 
-    void TryAutoAttack()
-    {
-        if (attackTimer > attackDelay)
-        {
-            attackTimer = 0;
-            StartAttackState();
-        }
-    }
+    // 조건이 충족되면 공격한다
+    protected abstract void TryAttack();
 
-    private void Attack()
-    {
-        Collider2D[] monsterColliders = Physics2D.OverlapBoxAll(hitSpotTransform.position, hitSpotCollider.bounds.size, hitSpotTransform.localEulerAngles.z, monsterMask);
-
-        for (int i = 0; i < monsterColliders.Length; i++)
-        {
-            Monster targetMonster = monsterColliders[i].GetComponent<Monster>();
-            if (!attackedMonsters.Contains(targetMonster))
-            {
-                targetMonster.TakeDamage(damage);
-                attackedMonsters.Add(targetMonster);
-            }
-        }
-    }
-
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRange);
