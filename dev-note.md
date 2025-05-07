@@ -15,7 +15,7 @@
 ### 게임 오브젝트의 충돌을 원하지 않는 경우
 
 1. 트리거 콜라이더를 사용한다.
-2. `[Edit] - [Project Settings] - [Physics 2D] - [Layer Collision Matrix]`에서 충돌을 원하지 않는 레이어의 체크박스를 선택 해제한다.
+2. [Edit] - [Project Settings] - [Physics 2D] - [Layer Collision Matrix]에서 충돌을 원하지 않는 레이어의 체크박스를 선택 해제한다.
 
 ---
 
