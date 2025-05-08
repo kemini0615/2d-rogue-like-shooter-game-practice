@@ -6,7 +6,7 @@ public abstract class Weapon : MonoBehaviour
     [Header("Components")]
     // [SerializeField] Transform hitSpotTransform;
     // [SerializeField] BoxCollider2D hitSpotCollider;
-    [SerializeField] Animator animator;
+    // [SerializeField] protected Animator animator;
 
     [Header("Attack")]
     [SerializeField] protected LayerMask monsterMask;
@@ -46,39 +46,22 @@ public abstract class Weapon : MonoBehaviour
         }   
     }
 
-    protected void UpdateIdleState()
-    {
-        IncreaseAttackTimer();
-        AimAtClosestMonster();
-    }
+    protected abstract void StartIdleState();
+    protected abstract void UpdateIdleState();
+    protected abstract void ExitIdleState();
+    protected abstract void StartAttackState();
 
-    protected void StartAttackState()
-    {
-        attackedMonsters.Clear();
-
-        animator.speed = attackRate;
-        animator.Play("Attack");
-        state = State.Attack;
-    }
-
-    protected void UpdateAttackState()
-    {
-        Attack();
-    }
+    protected abstract void UpdateAttackState();
     
     // Attack 애니메이션이 끝나면 호출된다
-    protected void ExitAttackState()
-    {
-        state = State.Idle;
-        attackedMonsters.Clear();
-    }
+    protected abstract void ExitAttackState();
 
     protected void IncreaseAttackTimer()
     {
         attackTimer += Time.deltaTime;
     }
 
-    protected void AimAtClosestMonster()
+    protected Monster AimAtClosestMonster()
     {
         Monster closestMonster = FindClosestMonster();
 
@@ -96,11 +79,13 @@ public abstract class Weapon : MonoBehaviour
             // 가장 가까운 적이 없다면 천천히 위쪽 방향을 향한다
             targetVector = Vector2.up;
             transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
-            return;
+            return null;
         }
 
         // 공격을 시도한다
-        TryAttack();
+        TryAutoAttack();
+
+        return closestMonster;
     }
 
     protected Monster FindClosestMonster()
@@ -131,7 +116,7 @@ public abstract class Weapon : MonoBehaviour
     }
 
     // 조건이 충족되면 공격한다
-    protected abstract void TryAttack();
+    protected abstract void TryAutoAttack();
 
     protected void OnDrawGizmos()
     {

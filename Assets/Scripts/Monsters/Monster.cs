@@ -7,7 +7,7 @@ public abstract class Monster : MonoBehaviour
     [SerializeField] protected MonsterMovement monsterMovement;
     [SerializeField] protected SpriteRenderer monsterRenderer;
     [SerializeField] protected SpriteRenderer spawnIndicatorRenderer;
-    [SerializeField] protected Collider2D colliderComponent;
+    [SerializeField] protected CircleCollider2D colliderComponent;
     [SerializeField] protected ParticleSystem destroyParticleSystem;
 
     [Header("Health")]
@@ -77,5 +77,10 @@ public abstract class Monster : MonoBehaviour
         destroyParticleSystem.transform.parent = null;
         destroyParticleSystem.Play();
         Destroy(gameObject);
+    }
+
+    public Vector2 GetCenterPosition()
+    {
+        return (Vector2) transform.position + new Vector2(0, colliderComponent.radius);
     }
 }

@@ -1581,10 +1581,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1042599789}
-  - component: {fileID: 1042599790}
+  - component: {fileID: 1042599792}
   - component: {fileID: 1042599791}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: Melee Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1606,28 +1606,6 @@ Transform:
   - {fileID: 1680491426}
   m_Father: {fileID: 633023707}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1042599790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1042599788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7bf613afdb18954ba14c7a7b0b52cba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitSpotTransform: {fileID: 1310680918}
-  hitSpotCollider: {fileID: 1310680919}
-  animator: {fileID: 1042599791}
-  monsterMask:
-    serializedVersion: 2
-    m_Bits: 128
-  lerpMultiplier: 10
-  detectRange: 3
-  damage: 5
-  attackRate: 2
 --- !u!95 &1042599791
 Animator:
   serializedVersion: 7
@@ -1650,6 +1628,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1042599792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042599788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 810b271dabbca4745a9d53bac53604b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterMask:
+    serializedVersion: 2
+    m_Bits: 128
+  lerpMultiplier: 0.3
+  detectRange: 3
+  damage: 2
+  attackRate: 1
+  hitSpotTransform: {fileID: 1310680918}
+  hitSpotCollider: {fileID: 1310680919}
+  animator: {fileID: 1042599791}
 --- !u!1 &1112977659
 GameObject:
   m_ObjectHideFlags: 0
@@ -2277,7 +2277,7 @@ Transform:
   m_GameObject: {fileID: 1611850082}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.2, y: -15.1, z: 1}
+  m_LocalPosition: {x: 0, y: -6, z: 1}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2292,7 +2292,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611850082}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 3398e6d725f2afb42b9c519c7785702f, type: 2}
   m_CullingMode: 0
@@ -2315,19 +2315,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1611850082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7bf613afdb18954ba14c7a7b0b52cba, type: 3}
+  m_Script: {fileID: 11500000, guid: ada7f4cc5d9bdce4ca9cdb689de8b655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitSpotTransform: {fileID: 613982236}
-  hitSpotCollider: {fileID: 0}
-  animator: {fileID: 1611850084}
   monsterMask:
     serializedVersion: 2
     m_Bits: 128
-  lerpMultiplier: 10
-  detectRange: 3
-  damage: 5
-  attackRate: 2
+  lerpMultiplier: 0.3
+  detectRange: 5
+  damage: 1
+  attackRate: 1
+  shootingPoint: {fileID: 613982236}
+  bulletPrefab: {fileID: -3707708741289655393, guid: 7774d18512326e947b1fae9ebb479373, type: 3}
 --- !u!1 &1655449030
 GameObject:
   m_ObjectHideFlags: 0
