@@ -1,13 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    [Header("Components")]
-    // [SerializeField] Transform hitSpotTransform;
-    // [SerializeField] BoxCollider2D hitSpotCollider;
-    // [SerializeField] protected Animator animator;
-
     [Header("Attack")]
     [SerializeField] protected LayerMask monsterMask;
     [SerializeField] protected float lerpMultiplier;
@@ -16,45 +10,13 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] protected float attackRate;
     protected float attackDelay;
     protected float attackTimer;
-    protected List<Monster> attackedMonsters = new List<Monster>();
     
-    protected enum State
-    {
-        Idle,
-        Attack,
-    }
-
-    protected State state;
-
     protected virtual void Start()
     {
-        state = State.Idle;
         attackDelay = 1f / attackRate;
     }
 
-    protected void Update()
-    {
-        // State machine pattern
-        switch (state)
-        {
-            case State.Idle:
-                UpdateIdleState();
-                break;
-            case State.Attack:
-                UpdateAttackState();
-                break;
-        }   
-    }
-
-    protected abstract void StartIdleState();
-    protected abstract void UpdateIdleState();
-    protected abstract void ExitIdleState();
-    protected abstract void StartAttackState();
-
-    protected abstract void UpdateAttackState();
-    
-    // Attack 애니메이션이 끝나면 호출된다
-    protected abstract void ExitAttackState();
+    protected abstract void Update();
 
     protected void IncreaseAttackTimer()
     {
@@ -73,17 +35,16 @@ public abstract class Weapon : MonoBehaviour
             // 바로 가장 가까운 적을 향한다
             targetVector = (closestMonster.transform.position - transform.position).normalized;
             transform.up = targetVector;
+
+            // 공격을 시도한다
+            TryAutoAttack();
         }
         else
         {
             // 가장 가까운 적이 없다면 천천히 위쪽 방향을 향한다
             targetVector = Vector2.up;
             transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
-            return null;
         }
-
-        // 공격을 시도한다
-        TryAutoAttack();
 
         return closestMonster;
     }
@@ -115,8 +76,16 @@ public abstract class Weapon : MonoBehaviour
         return closestMonster;
     }
 
-    // 조건이 충족되면 공격한다
-    protected abstract void TryAutoAttack();
+    protected void TryAutoAttack()
+    {
+        if (attackTimer < attackDelay)
+            return;
+
+        Attack();
+        attackTimer = 0f;
+    }
+
+    protected abstract void Attack();
 
     protected void OnDrawGizmos()
     {

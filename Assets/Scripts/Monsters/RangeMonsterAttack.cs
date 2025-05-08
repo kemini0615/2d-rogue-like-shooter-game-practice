@@ -27,6 +27,33 @@ public class RangeMonsterAttack : MonoBehaviour
         attackTimer += Time.deltaTime;
     }
 
+    public void TryAttack()
+    {
+        if (attackTimer < attackDelay)
+            return;
+
+        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
+        if (distToPlayer > attackRange)
+            return;
+
+        RangeAttack();
+    }
+
+    void RangeAttack()
+    {
+        Vector2 direction = (Player.Instance.GetCenterPosition() - (Vector2) shootingPoint.position).normalized;
+        ShootBullet(direction);
+        attackTimer = 0f;
+    }
+
+    void ShootBullet(Vector2 direction)
+    {
+        MonsterBullet bullet = bulletPool.Get();
+        bullet.bulletExpired -= ReleaseBullet;
+        bullet.bulletExpired += ReleaseBullet;
+        bullet.Shoot(direction, attackDamage);
+    }
+
     MonsterBullet CreateBullet()
     {
         return Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
@@ -46,33 +73,6 @@ public class RangeMonsterAttack : MonoBehaviour
     void OnDestroyBullet(MonsterBullet bullet)
     {
         Destroy(bullet.gameObject);
-    }
-
-    public void TryAttack()
-    {
-        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
-
-        if (attackTimer < attackDelay)
-            return;
-
-        // 플레이어가 공격 범위 안에 있으면 공격한다
-        if (distToPlayer <= attackRange)
-            RangeAttack();
-    }
-
-    void RangeAttack()
-    {
-        Vector2 direction = (Player.Instance.GetCenterPosition() - (Vector2) shootingPoint.position).normalized;
-        ShootBullet(direction);
-        attackTimer = 0f;
-    }
-
-    void ShootBullet(Vector2 direction)
-    {
-        MonsterBullet bullet = bulletPool.Get();
-        bullet.bulletExpired -= ReleaseBullet;
-        bullet.bulletExpired += ReleaseBullet;
-        bullet.Shoot(direction, attackDamage);
     }
 
     // 오브젝트 풀에 총알을 반납하는 콜백함수

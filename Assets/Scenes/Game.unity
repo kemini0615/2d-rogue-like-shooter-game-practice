@@ -1644,7 +1644,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   lerpMultiplier: 0.3
-  detectRange: 3
+  detectRange: 5
   damage: 2
   attackRate: 1
   hitSpotTransform: {fileID: 1310680918}
@@ -2322,9 +2322,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   lerpMultiplier: 0.3
-  detectRange: 5
+  detectRange: 8
   damage: 1
-  attackRate: 1
+  attackRate: 2
   shootingPoint: {fileID: 613982236}
   bulletPrefab: {fileID: -3707708741289655393, guid: 7774d18512326e947b1fae9ebb479373, type: 3}
 --- !u!1 &1655449030

@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D otherCollider)
     {
-        // 충돌한 상대가 플레이어라면 공격
+        // 충돌한 상대가 몬스터라면 공격
         if (otherCollider.TryGetComponent(out Monster monster))
         {
             // 코루틴 종료
@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour
 
             this.bulletCollider.enabled = false;
             
-            // 플레이어와 충돌하면 오브젝트 풀에 반납
+            // 몬스터와 충돌하면 오브젝트 풀에 반납
             bulletExpired?.Invoke(this);
         }
     }
@@ -59,7 +59,7 @@ public class Bullet : MonoBehaviour
     {
         yield return new WaitForSeconds(life); // N초 대기
 
-        // 플레이어와 충돌하지 않은 채로 일정 시간(N초)이 지나면 오브젝트 풀에 반납
+        // 몬스터와 충돌하지 않은 채로 일정 시간(N초)이 지나면 오브젝트 풀에 반납
         bulletExpired?.Invoke(this);
     }
 }
