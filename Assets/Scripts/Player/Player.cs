@@ -15,8 +15,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    const float ScaleMultiplier = 0.25f;
-
     [SerializeField] Slider hpSlider;
     [SerializeField] TextMeshProUGUI hpText;
     [SerializeField] CircleCollider2D playerCollider;
@@ -71,6 +69,6 @@ public class Player : MonoBehaviour
 
     public Vector2 GetCenterPosition()
     {
-        return (Vector2) transform.position + playerCollider.offset * ScaleMultiplier;
+        return (Vector2) transform.position + playerCollider.offset;
     }
 }
