@@ -10,8 +10,8 @@ public class MonsterBullet : MonoBehaviour
     [SerializeField] float speed;
     int attackDamage;
 
-    public Action<MonsterBullet> bulletExpired;
-    float life = 5f;
+    public Action<MonsterBullet> expired;
+    float lifetime = 5f;
 
     void Awake()
     {
@@ -19,47 +19,43 @@ public class MonsterBullet : MonoBehaviour
         bulletCollider = GetComponent<Collider2D>();
     }
 
+    // 총알의 초기 위치와 속도를 설정한다.
     public void Init(Vector2 initialPosition)
     {
         transform.position = initialPosition;
         rb.linearVelocity = Vector2.zero;
         this.bulletCollider.enabled = true;
-        
-        // 코루틴 시작
+
         StartCoroutine(ReleaseCoroutine());
     }
 
     public void Shoot(Vector2 direction, int attackDamage)
     {
         transform.right = direction;
-        // Rigidbody.velocity는 더이상 사용하지 않는다
-        rb.linearVelocity = direction * speed;
+        rb.linearVelocity = direction * speed; // Rigidbody.velocity는 더이상 사용하지 않는다.
         this.attackDamage = attackDamage;
     }
 
     void OnTriggerEnter2D(Collider2D otherCollider)
     {
-        // 충돌한 상대가 플레이어라면 공격
         if (otherCollider.TryGetComponent(out Player player))
         {
-            // 코루틴 종료
             StopCoroutine(ReleaseCoroutine());
 
             player.TakeDamage(this.attackDamage);
 
             this.bulletCollider.enabled = false;
             
-            // 플레이어와 충돌하면 오브젝트 풀에 반납
-            bulletExpired?.Invoke(this);
+            // 플레이어와 충돌하면 오브젝트 풀에 오브젝트(총알)를 반납한다.
+            expired?.Invoke(this);
         }
     }
 
-    // 코루틴 함수
     IEnumerator ReleaseCoroutine()
     {
-        yield return new WaitForSeconds(life); // N초 대기
+        yield return new WaitForSeconds(lifetime); // 총알의 생명 주기만큼 대기한다.
 
-        // 플레이어와 충돌하지 않은 채로 일정 시간(N초)이 지나면 오브젝트 풀에 반납
-        bulletExpired?.Invoke(this);
+        // 플레이어와 충돌하지 않은 채로 생명 주기만큼의 시간이 지나면 오브젝트 풀에 오브젝트(총알)를 반납한다.
+        expired?.Invoke(this);
     }
 }

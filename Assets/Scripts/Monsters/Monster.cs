@@ -31,14 +31,14 @@ public abstract class Monster : MonoBehaviour
         monsterRenderer.enabled = false;
         spawnIndicatorRenderer.enabled = true;
 
-        // 몬스터 스폰 애니메이션을 재생한다
+        // 몬스터 스폰 애니메이션을 재생한다.
         Vector3 targetScale = spawnIndicatorRenderer.transform.localScale * 1.2f;
         LeanTween.scale(spawnIndicatorRenderer.gameObject, targetScale, .3f)
             .setLoopPingPong(4)
             .setOnComplete(OnSpawnAnimationCompleted);
     }
 
-    // 몬스터 스폰 애니메이션이 끝나면 몬스터를 렌더링한다
+    // 몬스터 스폰 애니메이션이 끝나면 몬스터를 렌더링한다.
     protected void OnSpawnAnimationCompleted()
     {
         monsterRenderer.enabled = true;
@@ -73,7 +73,7 @@ public abstract class Monster : MonoBehaviour
 
     protected void Die()
     {
-        // 파티클 시스템을 몬스터 게임 오브젝트에서 분리한다
+        // 파티클 시스템을 몬스터 게임 오브젝트에서 분리한다.
         destroyParticleSystem.transform.parent = null;
         destroyParticleSystem.Play();
         Destroy(gameObject);

@@ -15,6 +15,7 @@ public class MonsterMovement : MonoBehaviour
     public void FollowPlayer()
     {
         float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
+        
         if (distToPlayer < targetDistance)
             return;
 

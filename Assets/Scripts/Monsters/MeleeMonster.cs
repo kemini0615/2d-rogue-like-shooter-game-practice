@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// MeleeMonster는 '공격' 기능이 단순하기 때문에 코드를 분리하지 않았다.
 public class MeleeMonster : Monster
 {
     [Header("Attack")]
@@ -13,7 +14,7 @@ public class MeleeMonster : Monster
     {
         base.Start();
 
-        attackDelay = 1f / attackRate; 
+        attackDelay = 1f / attackRate;
     }
 
     protected void Update()
@@ -21,25 +22,28 @@ public class MeleeMonster : Monster
         if (!CanFollowPlayer())
             return;
 
+        // 플레이어를 추적한다.
         monsterMovement.FollowPlayer();
 
         attackTimer += Time.deltaTime;
+
+        // 공격을 시도한다.
         TryAttack();
     }
 
     void TryAttack()
     {
-        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
-
         if (attackTimer < attackDelay)
             return;
 
-        // 플레이어가 공격 범위 안에 있으면 공격한다
+        float distToPlayer = Vector2.Distance(transform.position, Player.Instance.transform.position);
+
+        // 플레이어가 공격 범위 안에 있으면 공격한다.
         if (distToPlayer <= attackRange)
-            Attack();
+            MeleeAttack();
     }
 
-    void Attack()
+    void MeleeAttack()
     {
         attackTimer = 0f;
 

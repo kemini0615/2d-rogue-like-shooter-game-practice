@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "2DRogueLikeShooterGame.sln"
+    "dotnet.defaultSolution": "2d-rogue-like-shooter-game-practice.sln"
 }
