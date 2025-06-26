@@ -26,6 +26,7 @@ public class RangeWeapon : Weapon
 
     protected override void Attack()
     {
+        base.Attack();
         RangeAttack();
     }
 
@@ -67,7 +68,6 @@ public class RangeWeapon : Weapon
         Destroy(bullet.gameObject);
     }
 
-    // 오브젝트 풀에 총알을 반납하는 콜백함수
     public void ReleaseBullet(Bullet bullet)
     {
         bulletPool.Release(bullet);

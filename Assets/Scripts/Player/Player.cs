@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    // Singleton Pattern
+    // 싱글톤 패턴.
     private static Player instance;
     public static Player Instance
     {

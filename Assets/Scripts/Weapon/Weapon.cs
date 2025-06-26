@@ -29,19 +29,19 @@ public abstract class Weapon : MonoBehaviour
 
         Vector2 targetVector;
 
-        // 가장 가까운 적이 있다면
+        // 가장 가까운 적이 있다면,
         if (closestMonster != null)
         {
-            // 바로 가장 가까운 적을 향한다
+            // 바로 가장 가까운 적을 바라본다.
             targetVector = (closestMonster.transform.position - transform.position).normalized;
             transform.up = targetVector;
 
-            // 공격을 시도한다
+            // 공격을 시도한다.
             TryAutoAttack();
         }
         else
         {
-            // 가장 가까운 적이 없다면 천천히 위쪽 방향을 향한다
+            // 가장 가까운 적이 없다면, 천천히 위쪽 방향을 바라본다.
             targetVector = Vector2.up;
             transform.up = Vector2.Lerp(transform.up, targetVector, Time.deltaTime * lerpMultiplier);
         }
@@ -82,10 +82,12 @@ public abstract class Weapon : MonoBehaviour
             return;
 
         Attack();
-        attackTimer = 0f;
     }
 
-    protected abstract void Attack();
+    protected virtual void Attack()
+    {
+        attackTimer = 0f;
+    }
 
     protected void OnDrawGizmos()
     {

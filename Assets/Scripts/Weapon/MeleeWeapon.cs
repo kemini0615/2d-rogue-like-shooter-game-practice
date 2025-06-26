@@ -10,26 +10,26 @@ public class MeleeWeapon : Weapon
 
     protected List<Monster> attackedMonsters = new List<Monster>();
 
+    // 상태 머신 패턴.
     protected enum State
     {
         Idle,
         Attack,
     }
 
-    protected State state;
+    protected State currentState;
 
     protected override void Start()
     {
         base.Start();
 
-        state = State.Idle;
+        currentState = State.Idle;
         hitSpotCollider = hitSpotTransform.GetComponent<BoxCollider2D>();
     }
 
     protected override void Update()
     {
-        // 상태 머신 패턴
-        switch (state)
+        switch (currentState)
         {
             case State.Idle:
                 UpdateIdleState();
@@ -39,6 +39,12 @@ public class MeleeWeapon : Weapon
                 break;
         }      
     }
+
+    protected override void Attack()
+    {
+        base.Attack();
+        EnterAttackState();
+    }
     
     protected void UpdateIdleState()
     {
@@ -46,14 +52,14 @@ public class MeleeWeapon : Weapon
         AimAtClosestMonster();
     }
     
-    protected void StartAttackState()
+    protected void EnterAttackState()
     {
         attackedMonsters.Clear();
 
-        // 애니메이션 재생
+        // 애니메이션 재생.
         animator.speed = attackRate;
         animator.Play("Attack");
-        state = State.Attack;
+        currentState = State.Attack;
     }
 
     protected void UpdateAttackState()
@@ -61,16 +67,11 @@ public class MeleeWeapon : Weapon
         MeleeAttack();
     }
     
-    // Attack 애니메이션이 끝나면 호출된다
+    // Attack 애니메이션이 끝나면 호출된다.
     protected void ExitAttackState()
     {
-        state = State.Idle;
+        currentState = State.Idle;
         attackedMonsters.Clear();
-    }
-
-    protected override void Attack()
-    {
-        StartAttackState();
     }
 
     protected void MeleeAttack()
